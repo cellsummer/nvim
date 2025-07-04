@@ -2,6 +2,23 @@
 -- stylua: ignore
 if true then return {
   {
+    "aktersnurra/no-clown-fiesta.nvim",
+    priority = 1000,
+    lazy = false,
+  },
+  {
+    "wtfox/jellybeans.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {}, -- Optional
+  },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "jellybeans",
+    },
+  },
+  {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
@@ -85,6 +102,7 @@ if true then return {
     { "gI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
     { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
     { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+    { "<leader>co", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
     { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
     -- Other
     { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
@@ -148,7 +166,17 @@ if true then return {
       end,
     })
   end,
-}
+},
+  {
+    "saghen/blink.cmp",
+    opts = {
+      keymap = {
+        ["<Tab>"] = { "select_and_accept", "fallback" },
+      },
+    },
+  },
+  {"junegunn/vim-easy-align"},
+  {"tpope/vim-surround"},
 } end
 
 -- every spec file under the "plugins" directory will be loaded automatically by lazy.nvim
@@ -162,12 +190,6 @@ return {
   { "ellisonleao/gruvbox.nvim" },
 
   -- Configure LazyVim to load gruvbox
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "gruvbox",
-    },
-  },
 
   -- change trouble config
   {
