@@ -88,6 +88,13 @@ return {
       vim.o.termguicolors = true
       vim.g.predawn_disable_italic = 1
       vim.cmd.colorscheme 'predawn'
+
+      -- Float/popup highlight overrides (predawn doesn't define these)
+      local hl = vim.api.nvim_set_hl
+      hl(0, 'NormalFloat',      { fg = '#F1F1F1', bg = '#232323' })
+      hl(0, 'FloatBorder',      { fg = '#777777', bg = '#232323' })
+      hl(0, 'FloatTitle',       { fg = '#F18260', bg = '#232323', bold = true })
+      hl(0, 'SnacksPickerDir',  { fg = '#92BFBF' })
     end,
   },
 

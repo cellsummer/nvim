@@ -302,26 +302,8 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter',
-    ---@module 'which-key'
-    ---@type wk.Opts
-    ---@diagnostic disable-next-line: missing-fields
-    opts = {
-      -- delay between pressing a key and opening which-key (milliseconds)
-      delay = 0,
-      icons = { mappings = vim.g.have_nerd_font },
-
-      -- Document existing key chains
-      spec = {
-        { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } }, -- Enable gitsigns recommended keymaps first
-        { 'gr', group = 'LSP Actions', mode = { 'n' } },
-      },
-    },
-  },
+  -- which-key disabled — using mini.clue (configured in mini.nvim below) instead
+  { 'folke/which-key.nvim', enabled = false },
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -341,7 +323,7 @@ require('lazy').setup({
     -- Note: If you customize your config for yourself,
     -- it’s best to remove the Telescope plugin config entirely
     -- instead of just disabling it here, to keep your config clean.
-    enabled = true,
+    enabled = false,
     event = 'VimEnter',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -847,20 +829,59 @@ require('lazy').setup({
       -- mini.surround disabled — using tpope/vim-surround instead
 
       -- Simple and easy statusline.
-      --  You could remove this setup call if you don't like it,
-      --  and try some other statusline plugin
       local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
       statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_location = function() return '%2l:%-2v' end
 
-      -- ... and there is more!
-      --  Check out: https://github.com/nvim-mini/mini.nvim
+      -- Key clue popup (replaces which-key)
+      local miniclue = require 'mini.clue'
+      miniclue.setup {
+        window = { delay = 0 },
+        triggers = {
+          { mode = 'n', keys = '<Leader>' },
+          { mode = 'x', keys = '<Leader>' },
+          { mode = 'n', keys = 'g' },
+          { mode = 'x', keys = 'g' },
+          { mode = 'n', keys = "'" },
+          { mode = 'x', keys = "'" },
+          { mode = 'n', keys = '`' },
+          { mode = 'x', keys = '`' },
+          { mode = 'n', keys = '"' },
+          { mode = 'x', keys = '"' },
+          { mode = 'i', keys = '<C-r>' },
+          { mode = 'c', keys = '<C-r>' },
+          { mode = 'n', keys = '<C-w>' },
+          { mode = 'n', keys = 'z' },
+          { mode = 'x', keys = 'z' },
+          { mode = 'n', keys = '[' },
+          { mode = 'n', keys = ']' },
+        },
+        clues = {
+          -- Group descriptions
+          { mode = 'n', keys = '<Leader>s', desc = '+Search' },
+          { mode = 'v', keys = '<Leader>s', desc = '+Search' },
+          { mode = 'n', keys = '<Leader>f', desc = '+Find' },
+          { mode = 'n', keys = '<Leader>t', desc = '+Tab' },
+          { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
+          { mode = 'n', keys = '<Leader>h', desc = '+Git Hunk' },
+          { mode = 'v', keys = '<Leader>h', desc = '+Git Hunk' },
+          { mode = 'n', keys = '<Leader>l', desc = '+LSP' },
+          { mode = 'n', keys = '<Leader>a', desc = '+Code Action' },
+          { mode = 'n', keys = '<Leader>c', desc = '+Coc' },
+          { mode = 'n', keys = '<Leader>r', desc = '+Refactor' },
+          { mode = 'n', keys = '<Leader>u', desc = '+Toggle' },
+          { mode = 'n', keys = '<Leader>e', desc = '+Explorer' },
+          { mode = 'n', keys = 'gr', desc = '+LSP Actions' },
+          -- Built-in clue generators
+          miniclue.gen_clues.builtin_completion(),
+          miniclue.gen_clues.g(),
+          miniclue.gen_clues.marks(),
+          miniclue.gen_clues.registers(),
+          miniclue.gen_clues.windows(),
+          miniclue.gen_clues.z(),
+        },
+      }
     end,
   },
 
@@ -917,7 +938,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 
   -- Custom plugins migrated from _vimrc
   { import = 'custom.plugin' },
@@ -950,5 +971,9 @@ require('lazy').setup({
 
 require 'custom.options'
 require 'custom.keymaps'
+
+-- Enable Neovim 0.12+ experimental UI2 (better messages, cmdline, pager)
+require('vim._core.ui2').enable {}
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

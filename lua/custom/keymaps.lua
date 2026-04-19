@@ -149,20 +149,17 @@ map('n', '<leader>ee', '<cmd>Vex<cr>', { desc = 'Open [E]xplorer (vertical)' })
 -- CD to current file's directory
 map('n', '<leader>cd', '<cmd>cd %:p:h<cr><cmd>pwd<cr>', { desc = '[C]hange [D]ir to file' })
 
--- Telescope (FZF equivalents)
-local ok, builtin = pcall(require, 'telescope.builtin')
-if ok then
-  map('n', '<leader><leader>', builtin.find_files, { desc = 'Find Files' })
-  map('n', '<C-p>', builtin.buffers, { desc = 'Find Buffers' })
-  map('n', '<leader>ff', builtin.git_files, { desc = '[F]ind Git [F]iles' })
-  map('n', '<leader>fg', builtin.git_status, { desc = '[F]ind [G]it Status' })
-  map('n', '<leader>fb', builtin.buffers, { desc = '[F]ind [B]uffers' })
-  map('n', '<leader>fj', builtin.jumplist, { desc = '[F]ind [J]umplist' })
-  map('n', '<leader>f;', builtin.command_history, { desc = '[F]ind Command History' })
-  map('n', '<leader>fw', builtin.live_grep, { desc = '[F]ind by grep [W]ord' })
-  map('n', '<leader>ft', builtin.colorscheme, { desc = '[F]ind [T]heme/Colorscheme' })
-  map('n', '<leader>so', builtin.oldfiles, { desc = '[S]earch [O]ld/Recent Files' })
-end
+-- Picker keymaps (Snacks picker — migrated from Telescope/FZF)
+map('n', '<leader><leader>', function() Snacks.picker.files() end, { desc = 'Find Files' })
+map('n', '<C-p>', function() Snacks.picker.buffers() end, { desc = 'Find Buffers' })
+map('n', '<leader>ff', function() Snacks.picker.git_files() end, { desc = '[F]ind Git [F]iles' })
+map('n', '<leader>fg', function() Snacks.picker.git_status() end, { desc = '[F]ind [G]it Status' })
+map('n', '<leader>fb', function() Snacks.picker.buffers() end, { desc = '[F]ind [B]uffers' })
+map('n', '<leader>fj', function() Snacks.picker.jumps() end, { desc = '[F]ind [J]umplist' })
+map('n', '<leader>f;', function() Snacks.picker.command_history() end, { desc = '[F]ind Command History' })
+map('n', '<leader>fw', function() Snacks.picker.grep() end, { desc = '[F]ind by grep [W]ord' })
+map('n', '<leader>ft', function() Snacks.picker.colorschemes() end, { desc = '[F]ind [T]heme/Colorscheme' })
+map('n', '<leader>so', function() Snacks.picker.recent() end, { desc = '[S]earch [O]ld/Recent Files' })
 
 -- Insert mode
 map('i', 'jk', '<ESC>')
