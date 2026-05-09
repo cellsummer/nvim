@@ -12,7 +12,7 @@ local opt = vim.opt
 o.history = 5000
 
 -- No shell slash conversion (Windows)
-o.shellslash = false
+-- o.shellslash = false
 
 -- Relative line numbers
 o.relativenumber = true
