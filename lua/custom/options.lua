@@ -8,6 +8,10 @@
 local o = vim.o
 local opt = vim.opt
 
+-- Providers: no Python plugins are used, so disable the python3 provider.
+-- Silences the "No python3 provider found" health warning without needing pynvim.
+vim.g.loaded_python3_provider = 0
+
 -- History
 o.history = 5000
 
