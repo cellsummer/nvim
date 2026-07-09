@@ -37,9 +37,6 @@ return {
   -- Clever f/t/F/T: highlights targets, repeat with f/t
   'rhysd/clever-f.vim',
 
-  -- Netrw enhancement (- to open in directory of current file)
-  'tpope/vim-vinegar',
-
   -- Git integration (:Git ...)
   'tpope/vim-fugitive',
 
