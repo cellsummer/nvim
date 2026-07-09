@@ -864,6 +864,9 @@ require('lazy').setup({
           { mode = 'n', keys = '<Leader>f', desc = '+Find' },
           { mode = 'n', keys = '<Leader>t', desc = '+Tab' },
           { mode = 'n', keys = '<Leader>b', desc = '+Buffer' },
+          { mode = 'n', keys = '<Leader>d', desc = '+Debug' },
+          -- 'x' (not 'v') to match the <Leader> trigger registered above
+          { mode = 'x', keys = '<Leader>d', desc = '+Debug' },
           { mode = 'n', keys = '<Leader>h', desc = '+Git Hunk' },
           { mode = 'v', keys = '<Leader>h', desc = '+Git Hunk' },
           { mode = 'n', keys = '<Leader>l', desc = '+LSP' },
