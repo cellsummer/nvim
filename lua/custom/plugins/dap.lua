@@ -147,7 +147,7 @@ return {
       program = '${file}',
       console = 'internalConsole',
       cwd = '${workspaceFolder}',
-      pythonPath = function()
+      python = function()
         local venv = os.getenv 'VIRTUAL_ENV' or os.getenv 'CONDA_PREFIX'
         if venv then return venv .. (vim.fn.has 'win32' == 1 and '/Scripts/python.exe' or '/bin/python') end
         return vim.fn.exepath 'python'

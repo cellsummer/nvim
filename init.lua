@@ -316,7 +316,7 @@ require('lazy').setup({
     'nvim-telescope/telescope.nvim',
     -- By default, Telescope is included and acts as your picker for everything.
 
-    -- If you would like to switch to a different picker (like snacks, or fzf-lua)
+    -- If you would like to switch to a different picker (like snackssnacks, or fzf-lua)
     -- you can disable the Telescope plugin by setting enabled to false and enable
     -- your replacement picker by requiring it explicitly (e.g. 'custom.plugins.snacks')
 
@@ -933,7 +933,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
+  -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommended keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -973,6 +973,7 @@ require('lazy').setup({
 
 require 'custom.options'
 require 'custom.keymaps'
+require 'custom.work'
 
 -- Enable Neovim 0.12+ experimental UI2 (better messages, cmdline, pager)
 require('vim._core.ui2').enable {}

@@ -17,6 +17,15 @@ return {
     -- end,
   },
 
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true
+
+    -- use opts = {} for passing setup options
+    -- this is equivalent to setup({}) function
+  },
+
   -- Show search match count (e.g. "3/10") in the command line
   'google/vim-searchindex',
 
@@ -72,8 +81,9 @@ return {
     init = function()
       vim.g.floaterm_keymap_toggle = '<C-/>'
       vim.g.floaterm_keymap_kill = '<C-q>'
-      vim.g.floaterm_shell = 'pwsh'
+      vim.g.floaterm_shell = 'cmd'
       vim.g.floaterm_opener = 'edit'
+
     end,
   },
 
@@ -92,6 +102,10 @@ return {
       hl(0, 'FloatBorder',      { fg = '#777777', bg = '#232323' })
       hl(0, 'FloatTitle',       { fg = '#F18260', bg = '#232323', bold = true })
       hl(0, 'SnacksPickerDir',  { fg = '#92BFBF' })
+
+      -- Swap statusline: file path = normal fg, git branch = muted
+      hl(0, 'MiniStatuslineFilename', { link = 'StatusLine' })
+      hl(0, 'MiniStatuslineDevinfo',  { link = 'StatusLineNC' })
     end,
   },
 
@@ -100,4 +114,30 @@ return {
   { 'rhysd/vim-color-spring-night', lazy = true },
   { 'nordtheme/vim', name = 'nord', lazy = true },
   { 'w0ng/vim-hybrid', lazy = true },
+
+  -- session management
+  {
+  "rmagatti/auto-session",
+  enabled = false,
+  lazy = false,
+
+  ---enables autocomplete for opts
+  ---@module "auto-session"
+  ---@type AutoSession.Config
+  opts = {
+      allowed_dirs = {"c:/ember_repos/*", "~/Repos/*"},
+      -- suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+    -- log_level = 'debug',
+    pre_save_cmds = {
+      function()
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.bo[buf].buftype == 'terminal' then
+            vim.api.nvim_buf_delete(buf, { force = true })
+          end
+        end
+      end,
+    },
+  },
+}
+  --
 }

@@ -1,3 +1,48 @@
 {
-  "snippets.ultisnips.enable": false
+  "languageserver": {
+    "pyrefly": {
+      "enable": true,
+      "command": "pyrefly",
+      "args": ["lsp"],
+      "filetypes": ["python"],
+      "rootPatterns": ["pyrefly.toml", "pyproject.toml", ".git"]
+    }
+  },
+  "coc.preferences.extensionUpdateCheck": "never",
+  "suggest.minTriggerInputLength": 2,
+  "coc.preferences.formatOnSave": true,
+  "coc.source.word.enable": false,
+  "inlayHint.enable": false,
+  "ty.disableInlayHint": true,
+  "ty.diagnosticMode": "off",
+  "semanticTokens.enable": false,
+  "powershell.integratedConsole.showOnStartup": false,
+  "python.formatting.provider": "ruff",
+  "python.formatting.ruffArgs": ["--preview"],
+  "pyright.organizeimports.provider": "ruff",
+  "python.linting.enabled": true,
+  "python.linting.ruffEnabled": true,
+  "python.pythonPath": ".venv/Scripts/python.exe",
+  "pyright.disableDiagnostics": false,
+  "pyright.trace.server": "verbose",
+  "markdown-preview-enhanced.previewTheme": "vue.css",
+  "pydocstring.formatter": "google",
+  "sql.database": "transactsql",
+  "sql.formatOptions": {
+    "keywordCase": "upper"
+  },
+  // "ruff.autoFixOnSave": true,
+  "ruff.enable": true,
+  "ruff.enableExperimentalFormatter": true,
+  "ruff.format.args": ["--config=pyproject.toml"],
+  "ruff.format.preview": true,
+  "ruff.lint.enable": true,
+  "ruff.lint.preview": true,
+  "ruff.lint.args": ["--config=pyproject.toml"],
+  "yank.highlight.enable": true,
+  "pyright.inlayHints.variableTypes": false,
+  "pyright.inlayHints.parameterTypes": false,
+  "pyright.inlayHints.functionReturnTypes": true,
+  "pyright.enable": false,
+  "snippets.ultisnips.pythonPrompt": false
 }

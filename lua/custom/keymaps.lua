@@ -109,6 +109,7 @@ map('c', '<C-P>', '<Up>')
 map('c', '<C-N>', '<Down>')
 
 -- Tabs
+map('n', '<leader>tt', '<cmd>tabnew<CR>', { desc = '[T]ab New' })
 map('n', '<leader>tk', '<cmd>tabclose<CR>', { desc = '[T]ab [K]ill' })
 map('n', '<leader>tn', '<cmd>tabnext<CR>', { desc = '[T]ab [N]ext' })
 map('n', '<leader>tp', '<cmd>tabprevious<CR>', { desc = '[T]ab [P]rev' })
@@ -148,7 +149,7 @@ map('n', '<F2>', ':%s/<C-r><C-w>//gc<Left><Left><Left>', { desc = 'Replace word 
 map('n', '<leader>cd', '<cmd>cd %:p:h<cr><cmd>pwd<cr>', { desc = '[C]hange [D]ir to file' })
 
 -- Picker keymaps (Snacks picker — migrated from Telescope/FZF)
-map('n', '<leader><leader>', function() Snacks.picker.files() end, { desc = 'Find Files' })
+map('n', '<leader><leader>', function() Snacks.picker.files({ignored = true}) end, { desc = 'Find Files' })
 map('n', '<C-p>', function() Snacks.picker.buffers() end, { desc = 'Find Buffers' })
 map('n', '<leader>ff', function() Snacks.picker.git_files() end, { desc = '[F]ind Git [F]iles' })
 map('n', '<leader>fg', function() Snacks.picker.git_status() end, { desc = '[F]ind [G]it Status' })
@@ -203,7 +204,7 @@ end, { silent = true, expr = true })
 
 -- <Tab>: confirm if pum is visible, otherwise insert tab
 map('i', '<Tab>', function()
-  if vim.fn.pumvisible() == 1 then
+  if vim.fn['coc#pum#visible']() == 1 then
     return vim.fn['coc#pum#confirm']()
   else
     return '<C-g>u<Tab>'

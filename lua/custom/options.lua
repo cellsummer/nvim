@@ -116,7 +116,7 @@ if vim.g.neovide then
   -- vim.o.guifont = 'Cascadia_Code:h10'
   -- vim.o.guifont = 'Fira_Code_Retina:h10'
   -- vim.o.guifont = 'Berkeley_Mono_Medium_Condensed:h11:b'
-  vim.o.guifont = 'Maple Mono NF:h10:W500'
+  vim.o.guifont = 'Iosevka_NFM:h10:W500'
 
   -- No UI chrome (equivalent to guioptions=)
   vim.g.neovide_hide_mouse_when_typing = true
