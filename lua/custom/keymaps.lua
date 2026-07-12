@@ -47,13 +47,11 @@ end, { expr = true })
 map('n', '<Leader>m', "mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm")
 
 -- Quick scribble buffer
-map('n', '<leader>n', '<cmd>e ~/buffer<cr>')
 
 -- Toggle spell check
 map('n', '<leader>us', '<cmd>setlocal spell!<cr>', { desc = 'Toggle [U]se [S]pell' })
 
 -- Toggle paste mode
-map('n', '<leader>pp', '<cmd>setlocal paste!<cr>', { desc = 'Toggle [P]aste mode' })
 
 -- Move lines up/down with Alt+j/k
 map('n', '<M-j>', 'mz:m+<cr>`z')
@@ -147,18 +145,6 @@ map('n', '<F2>', ':%s/<C-r><C-w>//gc<Left><Left><Left>', { desc = 'Replace word 
 
 -- CD to current file's directory
 map('n', '<leader>cd', '<cmd>cd %:p:h<cr><cmd>pwd<cr>', { desc = '[C]hange [D]ir to file' })
-
--- Picker keymaps (Snacks picker — migrated from Telescope/FZF)
-map('n', '<leader><leader>', function() Snacks.picker.files({ignored = true}) end, { desc = 'Find Files' })
-map('n', '<C-p>', function() Snacks.picker.buffers() end, { desc = 'Find Buffers' })
-map('n', '<leader>ff', function() Snacks.picker.git_files() end, { desc = '[F]ind Git [F]iles' })
-map('n', '<leader>fg', function() Snacks.picker.git_status() end, { desc = '[F]ind [G]it Status' })
-map('n', '<leader>fb', function() Snacks.picker.buffers() end, { desc = '[F]ind [B]uffers' })
-map('n', '<leader>fj', function() Snacks.picker.jumps() end, { desc = '[F]ind [J]umplist' })
-map('n', '<leader>f;', function() Snacks.picker.command_history() end, { desc = '[F]ind Command History' })
-map('n', '<leader>fw', function() Snacks.picker.grep() end, { desc = '[F]ind by grep [W]ord' })
-map('n', '<leader>ft', function() Snacks.picker.colorschemes() end, { desc = '[F]ind [T]heme/Colorscheme' })
-map('n', '<leader>so', function() Snacks.picker.recent() end, { desc = '[S]earch [O]ld/Recent Files' })
 
 -- Insert mode
 map('i', 'jk', '<ESC>')

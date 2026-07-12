@@ -39,6 +39,18 @@ return {
       },
     },
     keys = {
+      -- File/buffer pickers
+      { '<leader><leader>', function() Snacks.picker.files({ignored = true}) end, desc = 'Find Files' },
+      { '<C-p>', function() Snacks.picker.buffers() end, desc = 'Find Buffers' },
+      { '<leader>ff', function() Snacks.picker.git_files() end, desc = '[F]ind Git [F]iles' },
+      { '<leader>fg', function() Snacks.picker.git_status() end, desc = '[F]ind [G]it Status' },
+      { '<leader>fb', function() Snacks.picker.buffers() end, desc = '[F]ind [B]uffers' },
+      { '<leader>fj', function() Snacks.picker.jumps() end, desc = '[F]ind [J]umplist' },
+      { '<leader>f;', function() Snacks.picker.command_history() end, desc = '[F]ind Command History' },
+      { '<leader>fw', function() Snacks.picker.grep() end, desc = '[F]ind by grep [W]ord' },
+      { '<leader>ft', function() Snacks.picker.colorschemes() end, desc = '[F]ind [T]heme/Colorscheme' },
+      { '<leader>so', function() Snacks.picker.recent() end, desc = '[S]earch [O]ld/Recent Files' },
+      -- Search
       { '<leader>sh', function() Snacks.picker.help() end, desc = '[S]earch [H]elp' },
       { '<leader>sk', function() Snacks.picker.keymaps() end, desc = '[S]earch [K]eymaps' },
       { '<leader>sf', function() Snacks.picker.files() end, desc = '[S]earch [F]iles' },
@@ -52,7 +64,7 @@ return {
       { '<leader>s/', function() Snacks.picker.grep_buffers() end, desc = '[S]earch [/] in Open Files' },
       { '<leader>sn', function() Snacks.picker.files { cwd = vim.fn.stdpath 'config' } end, desc = '[S]earch [N]eovim files' },
       { "<leader>e", function() Snacks.explorer() end, desc = "File [E]xplorer" },
-      -- git
+      -- Git
       { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
       { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
       { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
