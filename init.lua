@@ -973,7 +973,7 @@ require('lazy').setup({
 
 require 'custom.options'
 require 'custom.keymaps'
-require 'custom.work'
+require 'custom.autocmds'
 
 -- Enable Neovim 0.12+ experimental UI2 (better messages, cmdline, pager)
 require('vim._core.ui2').enable {}

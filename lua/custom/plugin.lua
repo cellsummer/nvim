@@ -83,7 +83,8 @@ return {
       vim.g.floaterm_keymap_kill = '<C-q>'
       vim.g.floaterm_shell = 'cmd'
       vim.g.floaterm_opener = 'edit'
-
+      vim.g.floaterm_wintype = 'vsplit'
+      vim.g.floaterm_width = 0.33
     end,
   },
 

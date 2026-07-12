@@ -74,6 +74,7 @@ o.smartindent = true
 -- Folding
 o.foldcolumn = '0'
 o.foldmethod = 'indent'
+o.foldlevel  = 99
 
 -- Line wrap
 o.wrap       = true
@@ -95,9 +96,9 @@ o.backup      = false
 o.writebackup = false
 o.swapfile    = false
 
--- Grep: use git grep by default (fast, respects .gitignore)
+-- Grep: use ripgrep (fast, respects .gitignore)
 if vim.fn.executable 'rg' == 1 then
-  o.grepprg = 'git grep -n'
+  o.grepprg = 'rg --vimgrep --no-heading --smart-case'
 end
 
 -- Wildmenu

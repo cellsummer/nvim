@@ -164,6 +164,14 @@ map('n', '<leader>so', function() Snacks.picker.recent() end, { desc = '[S]earch
 map('i', 'jk', '<ESC>')
 map('i', '<C-;>', '<ESC>')
 
+-- Terminal navigation
+map('t', '<C-h>', '<C-\\><C-n><C-w>h', { silent = true })
+map('t', '<C-j>', '<C-\\><C-n><C-w>j', { silent = true })
+map('t', '<C-k>', '<C-\\><C-n><C-w>k', { silent = true })
+
+-- FloatermSend: send visual selection to terminal
+map('v', '<C-R>', ':FloatermSend<cr>', { silent = true })
+
 -- ============================================================
 -- coc.nvim
 -- ============================================================
