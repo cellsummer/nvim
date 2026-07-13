@@ -21,6 +21,10 @@ local function buf_close()
   end
 end
 
+-- backslash to slash and vice versa
+map('n', '<Bslash>/', ':let tmp=@/<BAR>s:\\:/:ge<BAR>let @/=tmp<BAR>noh<CR>', { desc = 'b-slash to slash' })
+map('n', '<Bslash><Bslash>', ':let tmp=@/<BAR>s:/:\\:ge<BAR>let @/=tmp<BAR>noh<CR>', { desc = 'slash to b-slash'})
+
 -- x closes buffer (replaces default delete-char); s disabled
 map('n', 'x', buf_close, { desc = 'Close buffer' })
 map('n', 's', '<Nop>')
@@ -33,6 +37,8 @@ map('n', '<C-Up>', '<cmd>resize -5<CR>')
 map('n', '<C-Down>', '<cmd>resize +5<CR>')
 map('n', '<C-Left>', '<cmd>vertical resize -5<CR>')
 map('n', '<C-Right>', '<cmd>vertical resize +5<CR>')
+map('n', '<C-w>m', ':MaximizerToggle<CR>', { desc = "Maximize the window." })
+map('v', '<C-w>m', ':MaximizerToggle<CR>gv', { desc = "Maximize the window." })
 
 -- Close readonly buffers with q; otherwise normal q (macro)
 map('n', 'q', function()
@@ -50,8 +56,6 @@ map('n', '<Leader>m', "mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm")
 
 -- Toggle spell check
 map('n', '<leader>us', '<cmd>setlocal spell!<cr>', { desc = 'Toggle [U]se [S]pell' })
-
--- Toggle paste mode
 
 -- Move lines up/down with Alt+j/k
 map('n', '<M-j>', 'mz:m+<cr>`z')

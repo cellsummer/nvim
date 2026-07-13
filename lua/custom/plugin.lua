@@ -118,27 +118,28 @@ return {
 
   -- session management
   {
-  "rmagatti/auto-session",
-  enabled = false,
-  lazy = false,
+    "rmagatti/auto-session",
+    enabled = false,
+    lazy = false,
 
-  ---enables autocomplete for opts
-  ---@module "auto-session"
-  ---@type AutoSession.Config
-  opts = {
-      allowed_dirs = {"c:/ember_repos/*", "~/Repos/*"},
-      -- suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
-    -- log_level = 'debug',
-    pre_save_cmds = {
-      function()
-        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-          if vim.bo[buf].buftype == 'terminal' then
-            vim.api.nvim_buf_delete(buf, { force = true })
+    ---enables autocomplete for opts
+    ---@module "auto-session"
+    ---@type AutoSession.Config
+    opts = {
+        allowed_dirs = {"c:/ember_repos/*", "~/Repos/*"},
+        -- suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+      -- log_level = 'debug',
+      pre_save_cmds = {
+        function()
+          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.bo[buf].buftype == 'terminal' then
+              vim.api.nvim_buf_delete(buf, { force = true })
+            end
           end
-        end
-      end,
+        end,
+      },
     },
   },
-}
-  --
+  -- window management
+  { "szw/vim-maximizer" }
 }

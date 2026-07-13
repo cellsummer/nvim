@@ -44,5 +44,11 @@
   "pyright.inlayHints.parameterTypes": false,
   "pyright.inlayHints.functionReturnTypes": true,
   "pyright.enable": false,
-  "snippets.ultisnips.pythonPrompt": false
+  "snippets.ultisnips.pythonPrompt": false,
+  // lua languageserver
+  "Lua.misc.parameters": [
+    "--logpath",
+    "~/.config/coc/extensions/coc-lua-data/log"
+  ],
+  "Lua.language-server-path": "~/.local/share/lua-language-server/bin/lua-language-server.exe"
 }
