@@ -44,7 +44,7 @@ return {
   },
 
   -- Clever f/t/F/T: highlights targets, repeat with f/t
-  'rhysd/clever-f.vim',
+  {'rhysd/clever-f.vim', enabled = false},
 
   -- Git integration (:Git ...)
   'tpope/vim-fugitive',
@@ -112,9 +112,31 @@ return {
 
   -- Additional colorschemes from vimrc
   { 'tomasiser/vim-code-dark', lazy = true },
-  { 'rhysd/vim-color-spring-night', lazy = true },
-  { 'nordtheme/vim', name = 'nord', lazy = true },
-  { 'w0ng/vim-hybrid', lazy = true },
+  {
+    "ember-theme/nvim",
+    name = "ember",
+    lazy = true,
+    config = function()
+      require("ember").setup({
+        variant = "ember", -- "ember" | "ember-soft" | "ember-light"
+      })
+      -- vim.cmd("colorscheme ember")
+    end,
+  },
+  {
+      'AlexvZyl/nordic.nvim',
+      lazy = true,
+      config = function()
+          -- require('nordic').setup({ cursorline = { theme = 'light', blend = 1 }})
+          local c = require('nordic.colors')
+          require('nordic').load({
+            nordic = { reduced_blue = true },
+            override = {
+              Visual = { bg = c.gray2 }
+            }
+          })
+      end
+  },
 
   -- session management
   {
@@ -138,6 +160,24 @@ return {
           end
         end,
       },
+    },
+  },
+  -- search
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    ---@type Flash.Config
+    opts = {},
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump({
+        search = {
+            mode = function(str) return "\\<" .. str end,
+        }
+      }) end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
   },
   -- window management

@@ -50,6 +50,8 @@ return {
       { '<leader>fw', function() Snacks.picker.grep() end, desc = '[F]ind by grep [W]ord' },
       { '<leader>ft', function() Snacks.picker.colorschemes() end, desc = '[F]ind [T]heme/Colorscheme' },
       { '<leader>so', function() Snacks.picker.recent() end, desc = '[S]earch [O]ld/Recent Files' },
+      { '<leader>fn', function() Snacks.picker.files { cwd = vim.fn.stdpath 'config' } end, desc = '[F]ind [N]eovim files' },
+      { '<leader>fs', function() Snacks.picker.files { cwd = '~/bin/Scripts' } end, desc = '[F]ind [S]cripts' },
       -- Search
       { '<leader>sh', function() Snacks.picker.help() end, desc = '[S]earch [H]elp' },
       { '<leader>sk', function() Snacks.picker.keymaps() end, desc = '[S]earch [K]eymaps' },
@@ -62,7 +64,7 @@ return {
       { '<leader>sc', function() Snacks.picker.commands() end, desc = '[S]earch [C]ommands' },
       { '<leader>/', function() Snacks.picker.lines() end, desc = '[/] Fuzzily search in current buffer' },
       { '<leader>s/', function() Snacks.picker.grep_buffers() end, desc = '[S]earch [/] in Open Files' },
-      { '<leader>sn', function() Snacks.picker.files { cwd = vim.fn.stdpath 'config' } end, desc = '[S]earch [N]eovim files' },
+      { '<leader>sn', function() Snacks.picker.files { cwd = '~/Notes' } end, desc = '[S]earch [N]otes' },
       { "<leader>e", function() Snacks.explorer() end, desc = "File [E]xplorer" },
       -- Git
       { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
