@@ -44,7 +44,7 @@ return {
   },
 
   -- Clever f/t/F/T: highlights targets, repeat with f/t
-  {'rhysd/clever-f.vim', enabled = false},
+  { 'rhysd/clever-f.vim',      enabled = false },
 
   -- Git integration (:Git ...)
   'tpope/vim-fugitive',
@@ -99,14 +99,14 @@ return {
 
       -- Float/popup highlight overrides (predawn doesn't define these)
       local hl = vim.api.nvim_set_hl
-      hl(0, 'NormalFloat',      { fg = '#F1F1F1', bg = '#232323' })
-      hl(0, 'FloatBorder',      { fg = '#777777', bg = '#232323' })
-      hl(0, 'FloatTitle',       { fg = '#F18260', bg = '#232323', bold = true })
-      hl(0, 'SnacksPickerDir',  { fg = '#92BFBF' })
+      hl(0, 'NormalFloat', { fg = '#F1F1F1', bg = '#232323' })
+      hl(0, 'FloatBorder', { fg = '#777777', bg = '#232323' })
+      hl(0, 'FloatTitle', { fg = '#F18260', bg = '#232323', bold = true })
+      hl(0, 'SnacksPickerDir', { fg = '#92BFBF' })
 
       -- Swap statusline: file path = normal fg, git branch = muted
       hl(0, 'MiniStatuslineFilename', { link = 'StatusLine' })
-      hl(0, 'MiniStatuslineDevinfo',  { link = 'StatusLineNC' })
+      hl(0, 'MiniStatuslineDevinfo', { link = 'StatusLineNC' })
     end,
   },
 
@@ -124,18 +124,18 @@ return {
     end,
   },
   {
-      'AlexvZyl/nordic.nvim',
-      lazy = true,
-      config = function()
-          -- require('nordic').setup({ cursorline = { theme = 'light', blend = 1 }})
-          local c = require('nordic.colors')
-          require('nordic').load({
-            nordic = { reduced_blue = true },
-            override = {
-              Visual = { bg = c.gray2 }
-            }
-          })
-      end
+    'AlexvZyl/nordic.nvim',
+    lazy = true,
+    config = function()
+      -- require('nordic').setup({ cursorline = { theme = 'light', blend = 1 }})
+      local c = require('nordic.colors')
+      require('nordic').load({
+        nordic = { reduced_blue = true },
+        override = {
+          Visual = { bg = c.gray2 }
+        }
+      })
+    end
   },
 
   -- session management
@@ -148,8 +148,8 @@ return {
     ---@module "auto-session"
     ---@type AutoSession.Config
     opts = {
-        allowed_dirs = {"c:/ember_repos/*", "~/Repos/*"},
-        -- suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+      allowed_dirs = { "c:/ember_repos/*", "~/Repos/*" },
+      -- suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
       -- log_level = 'debug',
       pre_save_cmds = {
         function()
@@ -169,15 +169,22 @@ return {
     ---@type Flash.Config
     opts = {},
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump({
-        search = {
-            mode = function(str) return "\\<" .. str end,
-        }
-      }) end, desc = "Flash" },
-      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump({
+            search = {
+              mode = function(str) return "\\<" .. str end,
+            }
+          })
+        end,
+        desc = "Flash"
+      },
+      { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
   },
   -- window management
