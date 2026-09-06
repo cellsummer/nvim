@@ -89,7 +89,8 @@ o.regexpengine = 0
 
 -- File encoding / format
 o.encoding    = 'utf8'
-o.fileformats = 'dos'
+-- Prefer native line endings: dos on Windows, unix elsewhere. First entry wins for new files.
+o.fileformats = vim.fn.has 'win32' == 1 and 'dos,unix' or 'unix,dos'
 
 -- No backup / swap files
 o.backup      = false

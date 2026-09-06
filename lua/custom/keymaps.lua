@@ -1,6 +1,6 @@
 -- lua/custom/keymaps.lua
 -- Migrated from _vimrc Mappings section
--- Note: <C-h/j/k/l> window nav and <Esc><Esc> terminal exit are already set in init.lua
+-- Note: <Esc><Esc> terminal exit is already set in init.lua
 
 local map = vim.keymap.set
 
@@ -29,8 +29,12 @@ map('n', '<Bslash><Bslash>', ':let tmp=@/<BAR>s:/:\\:ge<BAR>let @/=tmp<BAR>noh<C
 map('n', 'x', buf_close, { desc = 'Close buffer' })
 map('n', 's', '<Nop>')
 
--- Clear search highlight (supplement to <Esc> in init.lua)
-map('n', '<BS>', '<cmd>noh<cr>', { silent = true })
+-- Clear search highlight and multicursor markers together
+-- (0.13 moved multicursor-clear onto the default <C-l>, which we remap for window focus)
+map('n', '<BS>', function()
+  vim.cmd.nohlsearch()
+  vim.api.nvim_buf_clear_namespace(0, vim.api.nvim_create_namespace 'nvim.multicursor', 0, -1)
+end, { silent = true, desc = 'Clear search highlight + multicursors' })
 
 -- Window resize
 map('n', '<C-Up>', '<cmd>resize -5<CR>')

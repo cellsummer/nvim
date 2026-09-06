@@ -184,7 +184,7 @@ vim.diagnostic.config {
   virtual_lines = false, -- Text shows up underneath the line, with virtual lines
 
   -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
-  jump = { float = true },
+  jump = { on_jump = function() vim.diagnostic.open_float() end },
 }
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
@@ -204,8 +204,8 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
---
 --  See `:help wincmd` for a list of all window commands
+--  Note: this overrides 0.13's default <C-l> (multicursor-clear); see <BS> in custom/keymaps.lua
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
@@ -835,6 +835,9 @@ require('lazy').setup({
       statusline.section_location = function() return '%2l:%-2v' end
 
       -- Key clue popup (replaces which-key)
+      -- Pre-map Q so mini.clue skips its macro wrapper (it only maps unmapped keys)
+      vim.keymap.set('n', 'Q', 'Q', { nowait = true })
+
       local miniclue = require 'mini.clue'
       miniclue.setup {
         window = { delay = 0 },
