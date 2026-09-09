@@ -71,9 +71,24 @@ return {
   -- Auto-change working directory to project root
   'airblade/vim-rooter',
 
+  -- Markdown enhancements.
+  {
+    "HakonHarnes/img-clip.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- add options here
+      -- or leave it empty to use the default settings
+    },
+    keys = {
+      -- suggested keymap
+      { "<leader>mi", "<cmd>PasteImage<cr>", desc = "Paste [M]arkdown [I]mage" },
+    },
+  },
+
   -- Floating terminal
   {
     'voldikss/vim-floaterm',
+    lazy = false,
     keys = {
       { '<C-/>', desc = 'Toggle floaterm' },
       { '<C-q>', desc = 'Kill floaterm' },
@@ -138,30 +153,6 @@ return {
     end
   },
 
-  -- session management
-  {
-    "rmagatti/auto-session",
-    enabled = false,
-    lazy = false,
-
-    ---enables autocomplete for opts
-    ---@module "auto-session"
-    ---@type AutoSession.Config
-    opts = {
-      allowed_dirs = { "c:/ember_repos/*", "~/Repos/*" },
-      -- suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
-      -- log_level = 'debug',
-      pre_save_cmds = {
-        function()
-          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            if vim.bo[buf].buftype == 'terminal' then
-              vim.api.nvim_buf_delete(buf, { force = true })
-            end
-          end
-        end,
-      },
-    },
-  },
   -- search
   {
     "folke/flash.nvim",
@@ -188,5 +179,5 @@ return {
     },
   },
   -- window management
-  { "szw/vim-maximizer" }
+  { "szw/vim-maximizer" },
 }

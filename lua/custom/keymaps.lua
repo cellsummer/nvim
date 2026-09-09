@@ -4,6 +4,13 @@
 
 local map = vim.keymap.set
 
+
+-- Open URL under cursor with system handler (fix for timeout issue)
+map('n', 'gx', function()
+  local url = vim.fn.expand('<cfile>')
+  vim.fn.jobstart({ 'cmd', '/c', 'start', '', url }, { detach = true })
+end, { desc = 'Open URL under cursor' })
+
 -- Buffer close helper (equivalent to :Bclose in vimrc)
 local function buf_close()
   local cur = vim.fn.bufnr '%'
@@ -23,7 +30,7 @@ end
 
 -- backslash to slash and vice versa
 map('n', '<Bslash>/', ':let tmp=@/<BAR>s:\\:/:ge<BAR>let @/=tmp<BAR>noh<CR>', { desc = 'b-slash to slash' })
-map('n', '<Bslash><Bslash>', ':let tmp=@/<BAR>s:/:\\:ge<BAR>let @/=tmp<BAR>noh<CR>', { desc = 'slash to b-slash'})
+map('n', '<Bslash><Bslash>', ':let tmp=@/<BAR>s:/:\\:ge<BAR>let @/=tmp<BAR>noh<CR>', { desc = 'slash to b-slash' })
 
 -- x closes buffer (replaces default delete-char); s disabled
 map('n', 'x', buf_close, { desc = 'Close buffer' })
@@ -60,6 +67,9 @@ map('n', '<Leader>m', "mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm")
 
 -- Toggle spell check
 map('n', '<leader>us', '<cmd>setlocal spell!<cr>', { desc = 'Toggle [U]se [S]pell' })
+map('n', '<leader>uf', '<cmd>FloatermNew --wintype=float --width=0.8<cr>', { desc = '[U]I: new floating term' })
+map('n', '<leader>ub', '<cmd>FloatermNew --wintype=split<cr>', { desc = '[U]I: new term below' })
+map('n', '<leader>ur', '<cmd>FloatermNew --wintype=vsplit<cr>', { desc = '[U]I: new term right' })
 
 -- Move lines up/down with Alt+j/k
 map('n', '<M-j>', 'mz:m+<cr>`z')
@@ -68,6 +78,9 @@ map('v', '<M-j>', ":m'>+<cr>`<my`>mzgv`yo`z")
 map('v', '<M-k>', ":m'<-2<cr>`>my`<mzgv`yo`z")
 
 -- Terminal mode
+-- Open terminal
+map('n', '<leader>bb', ':sp term://cmd<cr>', { desc = '[B]uffer +Term [B]elow' })
+map('n', '<leader>br', ':vs term://cmd<cr>', { desc = '[B]uffer +Term [R]ght' })
 -- Exit terminal
 map('t', '<C-;>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 -- Note: <Esc><Esc> to exit terminal is already set in init.lua
@@ -80,7 +93,7 @@ local function term_send(char)
     if job_id then vim.api.nvim_chan_send(job_id, char) end
   end
 end
-map('t', '<C-w>', term_send '\x17', { desc = 'Terminal: delete word (readline)' })  -- backward-kill-word
+map('t', '<C-w>', term_send '\x17', { desc = 'Terminal: delete word (readline)' }) -- backward-kill-word
 map('t', '<C-u>', term_send '\x15', { desc = 'Terminal: delete to line start (readline)' })
 map('t', '<C-k>', term_send '\x0b', { desc = 'Terminal: delete to line end (readline)' })
 map('t', '<C-a>', term_send '\x01', { desc = 'Terminal: beginning of line (readline)' })
@@ -221,9 +234,9 @@ map('n', '[g', '<Plug>(coc-diagnostic-prev)', { silent = true, nowait = true })
 map('n', ']g', '<Plug>(coc-diagnostic-next)', { silent = true, nowait = true })
 
 -- GoTo navigation
-map('n', 'gd', '<Plug>(coc-definition)',      { silent = true, nowait = true })
+map('n', 'gd', '<Plug>(coc-definition)', { silent = true, nowait = true })
 map('n', 'gy', '<Plug>(coc-type-definition)', { silent = true, nowait = true })
-map('n', 'gr', '<Plug>(coc-references)',      { silent = true, nowait = true })
+map('n', 'gr', '<Plug>(coc-references)', { silent = true, nowait = true })
 
 -- K: show documentation in preview window
 local function show_documentation()
@@ -247,14 +260,15 @@ map('n', '<leader>lr', '<Plug>(coc-rename)', { desc = 'LSP [R]ename' })
 map({ 'n', 'x' }, '<leader>lf', '<Plug>(coc-format-selected)', { desc = 'LSP [F]ormat selected' })
 
 -- Code actions
-map({ 'n', 'x' }, '<leader>a',  '<Plug>(coc-codeaction-selected)', { desc = 'Code [A]ction (selection)' })
-map('n',           '<leader>ac', '<Plug>(coc-codeaction-cursor)',   { desc = 'Code [A]ction at [C]ursor' })
-map('n',           '<leader>as', '<Plug>(coc-codeaction-source)',   { desc = 'Code [A]ction [S]ource' })
-map('n',           '<leader>qf', '<Plug>(coc-fix-current)',         { desc = '[Q]uick[F]ix current line' })
+map({ 'n', 'x' }, '<leader>a', '<Plug>(coc-codeaction-selected)', { desc = 'Code [A]ction (selection)' })
+map('n', '<leader>ac', '<Plug>(coc-codeaction-cursor)', { desc = 'Code [A]ction at [C]ursor' })
+map('n', '<leader>as', '<Plug>(coc-codeaction-source)', { desc = 'Code [A]ction [S]ource' })
+map('n', '<leader>qf', '<Plug>(coc-fix-current)', { desc = '[Q]uick[F]ix current line' })
 
 -- Refactor
-map('n',           '<leader>re', '<Plug>(coc-codeaction-refactor)',          { silent = true, desc = '[Re]factor' })
-map({ 'n', 'x' }, '<leader>r',  '<Plug>(coc-codeaction-refactor-selected)', { silent = true, desc = '[R]efactor selection' })
+map('n', '<leader>re', '<Plug>(coc-codeaction-refactor)', { silent = true, desc = '[Re]factor' })
+map({ 'n', 'x' }, '<leader>r', '<Plug>(coc-codeaction-refactor-selected)',
+  { silent = true, desc = '[R]efactor selection' })
 
 -- Code lens
 map('n', '<leader>cl', '<Plug>(coc-codelens-action)', { desc = '[C]ode [L]ens' })
@@ -287,17 +301,19 @@ map({ 'n', 'x' }, '<C-s>', '<Plug>(coc-range-select)', { silent = true })
 
 -- User commands
 vim.api.nvim_create_user_command('Format', function() vim.fn.CocActionAsync('format') end, { nargs = 0 })
-vim.api.nvim_create_user_command('Fold',   function(o) vim.fn.CocAction('fold', o.fargs[1]) end, { nargs = '?' })
-vim.api.nvim_create_user_command('OR',     function() vim.fn.CocActionAsync('runCommand', 'editor.action.organizeImport') end, { nargs = 0 })
+vim.api.nvim_create_user_command('Fold', function(o) vim.fn.CocAction('fold', o.fargs[1]) end, { nargs = '?' })
+vim.api.nvim_create_user_command('OR', function() vim.fn.CocActionAsync('runCommand', 'editor.action.organizeImport') end,
+  { nargs = 0 })
 
 -- CocList shortcuts
-map('n', '<space>ca', ':<C-u>CocList diagnostics<cr>',  { silent = true, nowait = true, desc = 'Coc: [A]ll diagnostics' })
-map('n', '<space>ce', ':<C-u>CocList extensions<cr>',   { silent = true, nowait = true, desc = 'Coc: [E]xtensions' })
-map('n', '<space>cc', ':<C-u>CocList commands<cr>',     { silent = true, nowait = true, desc = 'Coc: [C]ommands' })
-map('n', '<space>co', ':<C-u>CocList outline<cr>',      { silent = true, nowait = true, desc = 'Coc: [O]utline' })
-map('n', '<space>cs', ':<C-u>CocList -I symbols<cr>',   { silent = true, nowait = true, desc = 'Coc: [S]ymbols' })
-map('n', '<space>cj', ':<C-u>CocNext<CR>',              { silent = true, nowait = true, desc = 'Coc: Next item' })
-map('n', '<space>ck', ':<C-u>CocPrev<CR>',              { silent = true, nowait = true, desc = 'Coc: Prev item' })
-map('n', '<space>cp', ':<C-u>CocListResume<CR>',        { silent = true, nowait = true, desc = 'Coc: Resume list' })
-map('n', '<space>y',  ':<C-u>CocList -A --normal yank<cr>', { silent = true, desc = 'Coc: Yank list' })
-map('n', '<space>mp', ':<C-u>CocCommand markdown-preview-enhanced.openPreview<cr>', { silent = true, nowait = true, desc = 'Coc: Markdown preview' })
+map('n', '<space>ca', ':<C-u>CocList diagnostics<cr>', { silent = true, nowait = true, desc = 'Coc: [A]ll diagnostics' })
+map('n', '<space>ce', ':<C-u>CocList extensions<cr>', { silent = true, nowait = true, desc = 'Coc: [E]xtensions' })
+map('n', '<space>cc', ':<C-u>CocList commands<cr>', { silent = true, nowait = true, desc = 'Coc: [C]ommands' })
+map('n', '<space>co', ':<C-u>CocList outline<cr>', { silent = true, nowait = true, desc = 'Coc: [O]utline' })
+map('n', '<space>cs', ':<C-u>CocList -I symbols<cr>', { silent = true, nowait = true, desc = 'Coc: [S]ymbols' })
+map('n', '<space>cj', ':<C-u>CocNext<CR>', { silent = true, nowait = true, desc = 'Coc: Next item' })
+map('n', '<space>ck', ':<C-u>CocPrev<CR>', { silent = true, nowait = true, desc = 'Coc: Prev item' })
+map('n', '<space>cp', ':<C-u>CocListResume<CR>', { silent = true, nowait = true, desc = 'Coc: Resume list' })
+map('n', '<space>y', ':<C-u>CocList -A --normal yank<cr>', { silent = true, desc = 'Coc: Yank list' })
+map('n', '<space>mp', ':<C-u>CocCommand markdown-preview-enhanced.openPreview<cr>',
+  { silent = true, nowait = true, desc = 'Coc: Markdown preview' })

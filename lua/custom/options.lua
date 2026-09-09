@@ -60,29 +60,29 @@ o.visualbell = false
 opt.iskeyword:remove '-'
 
 -- Don't auto-resize splits
-o.equalalways = false
+o.equalalways  = false
 
 -- Indentation: spaces, width 4
-o.expandtab   = true
-o.tabstop     = 4
-o.softtabstop = 4
-o.shiftwidth  = 4
-o.smarttab    = true
-o.autoindent  = true
-o.smartindent = true
+o.expandtab    = true
+o.tabstop      = 4
+o.softtabstop  = 4
+o.shiftwidth   = 4
+o.smarttab     = true
+o.autoindent   = true
+o.smartindent  = true
 
 -- Folding
-o.foldcolumn = '0'
-o.foldmethod = 'indent'
-o.foldlevel  = 99
+o.foldcolumn   = '0'
+o.foldmethod   = 'indent'
+o.foldlevel    = 99
 
 -- Line wrap
-o.wrap       = true
-o.linebreak  = true
-o.textwidth  = 500
+o.wrap         = true
+o.linebreak    = true
+o.textwidth    = 500
 
 -- Auto-reload files changed outside nvim
-o.autoread = true
+o.autoread     = true
 
 -- Regex engine (0 = auto-select)
 o.regexpengine = 0
@@ -93,40 +93,46 @@ o.encoding    = 'utf8'
 o.fileformats = vim.fn.has 'win32' == 1 and 'dos,unix' or 'unix,dos'
 
 -- No backup / swap files
-o.backup      = false
-o.writebackup = false
-o.swapfile    = false
+o.backup       = false
+o.writebackup  = false
+o.swapfile     = false
 
 -- Grep: use ripgrep (fast, respects .gitignore)
 if vim.fn.executable 'rg' == 1 then
-  o.grepprg = 'rg --vimgrep --no-heading --smart-case'
+    o.grepprg = 'rg --vimgrep --no-heading --smart-case'
 end
 
 -- Wildmenu
 o.wildmenu = true
 opt.wildignore:append '*.o,*~,*.pyc'
 if vim.fn.has 'win32' == 1 then
-  opt.wildignore:append '.git\\*,.hg\\*,.svn\\*'
+    opt.wildignore:append '.git\\*,.hg\\*,.svn\\*'
 else
-  opt.wildignore:append '*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store'
+    opt.wildignore:append '*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store'
 end
 
 -- Neovide
 if vim.g.neovide then
-  -- Font (from vimrc: Maple_Mono_NF_Medium h10 W500)
-  -- Commented alternatives from vimrc kept for reference:
-  -- vim.o.guifont = 'Cascadia_Code:h10'
-  -- vim.o.guifont = 'Fira_Code_Retina:h10'
-  -- vim.o.guifont = 'Berkeley_Mono_Medium_Condensed:h11:b'
-  vim.o.guifont = 'Iosevka_NFM:h10:W500'
+    -- Font (from vimrc: Maple_Mono_NF_Medium h10 W500)
+    -- Commented alternatives from vimrc kept for reference:
+    -- vim.o.guifont                         = 'Maple_Mono_NF_Medium:h9:W400'
+    vim.o.guifont                         = "Berkeley_Mono,Iosevka_NFM:h10"
+    -- vim.o.guifont                         = 'Hurmit_Nerd_Font_Mono:h10:W400:cANSI:qDRAFT'
+    -- vim.o.guifont                         = 'Iosevka_NFM:h10:W500'
+    -- vim.o.guifont                         = 'UbuntuMono_Nerd_Font:h11:W400:cANSI:qDRAFT'
 
-  -- No UI chrome (equivalent to guioptions=)
-  vim.g.neovide_hide_mouse_when_typing = true
-  vim.g.neovide_remember_window_size   = true
+    -- No UI chrome (equivalent to guioptions=)
+    vim.g.neovide_hide_mouse_when_typing  = true
+    vim.g.neovide_remember_window_size    = true
 
-  -- Cursor
-  vim.g.neovide_cursor_animation_length = 0
-  vim.g.neovide_cursor_trail_size       = 0
+    -- Cursor
+    vim.g.neovide_cursor_animation_length = 0
+    vim.g.neovide_cursor_trail_size       = 0
+    vim.api.nvim_set_keymap("n", "<C-=>", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1<CR>",
+        { silent = true })
+    vim.api.nvim_set_keymap("n", "<C-->", ":lua vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1<CR>",
+        { silent = true })
+    vim.api.nvim_set_keymap("n", "<C-0>", ":lua vim.g.neovide_scale_factor = 1<CR>", { silent = true })
 end
 
 -- Python indent

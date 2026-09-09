@@ -25,7 +25,7 @@
   "python.pythonPath": ".venv/Scripts/python.exe",
   "pyright.disableDiagnostics": false,
   "pyright.trace.server": "verbose",
-  "markdown-preview-enhanced.previewTheme": "vue.css",
+  "markdown-preview-enhanced.previewTheme": "monokai.css",
   "pydocstring.formatter": "google",
   "sql.database": "transactsql",
   "sql.formatOptions": {
@@ -44,6 +44,13 @@
   "pyright.inlayHints.parameterTypes": false,
   "pyright.inlayHints.functionReturnTypes": true,
   "pyright.enable": false,
-  "snippets.ultisnips.pythonPrompt": false
+  "snippets.ultisnips.pythonPrompt": false,
   // lua languageserver
+  "Lua.diagnostics.globals": ["vim"],
+  "Lua.runtime.version": "LuaJIT",
+  "Lua.workspace.library": ["$VIMRUNTIME"],
+  "Lua.format.defaultConfig": {
+    "indent_style": "space",
+    "indent_size": "2"
+  }
 }
