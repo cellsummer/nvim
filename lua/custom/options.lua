@@ -116,7 +116,8 @@ if vim.g.neovide then
     -- Font (from vimrc: Maple_Mono_NF_Medium h10 W500)
     -- Commented alternatives from vimrc kept for reference:
     -- vim.o.guifont                         = 'Maple_Mono_NF_Medium:h9:W400'
-    vim.o.guifont                         = "Berkeley_Mono,Iosevka_NFM:h10"
+    -- Font now set in Neovide config.toml (~/AppData/Roaming/neovide/config.toml)
+    -- vim.o.guifont                         = "Berkeley_Mono,Iosevka_NFM:h10"
     -- vim.o.guifont                         = 'Hurmit_Nerd_Font_Mono:h10:W400:cANSI:qDRAFT'
     -- vim.o.guifont                         = 'Iosevka_NFM:h10:W500'
     -- vim.o.guifont                         = 'UbuntuMono_Nerd_Font:h11:W400:cANSI:qDRAFT'
