@@ -68,6 +68,8 @@ map('n', '<Leader>m', "mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm")
 -- Toggle spell check
 map('n', '<leader>us', '<cmd>setlocal spell!<cr>', { desc = 'Toggle [U]se [S]pell' })
 map('n', '<leader>uf', '<cmd>FloatermNew --wintype=float --width=0.8<cr>', { desc = '[U]I: new floating term' })
+map('n', '<leader>ul', '<cmd>FloatermLast<cr>', { desc = '[U]I: [L]ast term' })
+map('n', '<leader>ui', '<cmd>FloatermFirst<cr>', { desc = '[U]I: F[i]rst term' })
 map('n', '<leader>ub', '<cmd>FloatermNew --wintype=split<cr>', { desc = '[U]I: new term below' })
 map('n', '<leader>ur', '<cmd>FloatermNew --wintype=vsplit<cr>', { desc = '[U]I: new term right' })
 
@@ -178,6 +180,12 @@ map('t', '<C-k>', '<C-\\><C-n><C-w>k', { silent = true })
 
 -- FloatermSend: send visual selection to terminal
 map('v', '<C-R>', ':FloatermSend<cr>', { silent = true })
+
+-- Paste as transposed (e.g. when pasting from excel)
+map({ 'n', 'v' }, '<leader>pt', 'P<cmd>s/\\t/\\r/g<cr>', { silent = true, desc = '[P]aste and [T]ranspose' })
+
+-- select pasted
+map('n', 'gp', '`[v`]', { silent = true })
 
 -- ============================================================
 -- coc.nvim

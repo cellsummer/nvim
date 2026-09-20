@@ -25,7 +25,7 @@
   "python.pythonPath": ".venv/Scripts/python.exe",
   "pyright.disableDiagnostics": false,
   "pyright.trace.server": "verbose",
-  "markdown-preview-enhanced.previewTheme": "monokai.css",
+  "markdown-preview-enhanced.previewTheme": "atom-light.css",
   "pydocstring.formatter": "google",
   "sql.database": "transactsql",
   "sql.formatOptions": {
