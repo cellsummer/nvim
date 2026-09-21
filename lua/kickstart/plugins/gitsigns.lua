@@ -50,9 +50,10 @@ return {
       map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
       map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
       map('n', '<leader>hD', function() gitsigns.diffthis '@' end, { desc = 'git [D]iff against last commit' })
-      -- Toggles
-      map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
-      map('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = '[T]oggle git show [D]eleted' })
+      -- Toggles. Kept under <leader>h (git hunk), not <leader>t — that prefix
+      -- is the tab group.
+      map('n', '<leader>hB', gitsigns.toggle_current_line_blame, { desc = 'git toggle line [B]lame' })
+      map('n', '<leader>hV', gitsigns.preview_hunk_inline, { desc = 'git toggle deleted ([V]iew inline)' })
     end,
   },
 }

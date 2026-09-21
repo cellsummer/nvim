@@ -32,9 +32,10 @@ end
 map('n', '<Bslash>/', ':let tmp=@/<BAR>s:\\:/:ge<BAR>let @/=tmp<BAR>noh<CR>', { desc = 'b-slash to slash' })
 map('n', '<Bslash><Bslash>', ':let tmp=@/<BAR>s:/:\\:ge<BAR>let @/=tmp<BAR>noh<CR>', { desc = 'slash to b-slash' })
 
--- x closes buffer (replaces default delete-char); s disabled
+-- x closes buffer (replaces default delete-char)
+-- NOTE: `s` is owned by flash.nvim (see plugin.lua). Do not map it here; this
+-- file loads after lazy.setup, so anything set here silently wins over flash.
 map('n', 'x', buf_close, { desc = 'Close buffer' })
-map('n', 's', '<Nop>')
 
 -- Clear search highlight and multicursor markers together
 -- (0.13 moved multicursor-clear onto the default <C-l>, which we remap for window focus)
@@ -61,7 +62,10 @@ map('n', 'q', function()
 end, { expr = true })
 
 -- Remove Windows ^M when encoding gets messed up
-map('n', '<Leader>m', "mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm")
+-- NOTE: leaf key, not `<Leader>m` — `<Leader>m` is the prefix for img-clip's
+-- `<Leader>mi`, and mini.clue ignores 'timeoutlen' so a prefix that is also a
+-- mapping never fires without an extra <CR>.
+map('n', '<Leader>mm', "mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm", { desc = '[M]isc: re[m]ove ^M' })
 
 -- Quick scribble buffer
 
@@ -142,6 +146,7 @@ end, { desc = '[T]ab [E]dit in file dir' })
 -- Toggle between last two tabs
 vim.g.lasttab = 1
 vim.api.nvim_create_autocmd('TabLeave', {
+  group = vim.api.nvim_create_augroup('custom-lasttab', { clear = true }),
   callback = function() vim.g.lasttab = vim.fn.tabpagenr() end,
 })
 map('n', '<leader>tl', function() vim.cmd('tabn ' .. vim.g.lasttab) end, { desc = '[T]ab [L]ast' })
@@ -258,6 +263,7 @@ map('n', 'K', show_documentation, { silent = true })
 
 -- Highlight symbol and references on CursorHold
 vim.api.nvim_create_autocmd('CursorHold', {
+  group = vim.api.nvim_create_augroup('custom-coc-highlight', { clear = true }),
   callback = function() vim.fn.CocActionAsync('highlight') end,
 })
 
@@ -267,16 +273,17 @@ map('n', '<leader>lr', '<Plug>(coc-rename)', { desc = 'LSP [R]ename' })
 -- Format selected
 map({ 'n', 'x' }, '<leader>lf', '<Plug>(coc-format-selected)', { desc = 'LSP [F]ormat selected' })
 
--- Code actions
-map({ 'n', 'x' }, '<leader>a', '<Plug>(coc-codeaction-selected)', { desc = 'Code [A]ction (selection)' })
+-- Code actions. Every key is a leaf: `<leader>a` and `<leader>r` are group
+-- prefixes, so they must not be mappings themselves (see the ^M note above).
+map({ 'n', 'x' }, '<leader>aa', '<Plug>(coc-codeaction-selected)', { desc = 'Code [A]ction (selection)' })
 map('n', '<leader>ac', '<Plug>(coc-codeaction-cursor)', { desc = 'Code [A]ction at [C]ursor' })
 map('n', '<leader>as', '<Plug>(coc-codeaction-source)', { desc = 'Code [A]ction [S]ource' })
-map('n', '<leader>qf', '<Plug>(coc-fix-current)', { desc = '[Q]uick[F]ix current line' })
+map('n', '<leader>af', '<Plug>(coc-fix-current)', { desc = 'Code [A]ction: quick[F]ix line' })
 
 -- Refactor
 map('n', '<leader>re', '<Plug>(coc-codeaction-refactor)', { silent = true, desc = '[Re]factor' })
-map({ 'n', 'x' }, '<leader>r', '<Plug>(coc-codeaction-refactor-selected)',
-  { silent = true, desc = '[R]efactor selection' })
+map({ 'n', 'x' }, '<leader>rr', '<Plug>(coc-codeaction-refactor-selected)',
+  { silent = true, desc = '[R]efacto[r] selection' })
 
 -- Code lens
 map('n', '<leader>cl', '<Plug>(coc-codelens-action)', { desc = '[C]ode [L]ens' })
