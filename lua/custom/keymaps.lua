@@ -169,8 +169,6 @@ map('n', '<leader>bp', '<cmd>bprevious<cr>', { desc = '[B]uffer [P]rev' })
 -- Replace word under cursor (interactive)
 map('n', '<F2>', ':%s/<C-r><C-w>//gc<Left><Left><Left>', { desc = 'Replace word under cursor' })
 
--- File explorer: see lua/kickstart/plugins/neo-tree.lua for <leader>e / - / \
-
 -- CD to current file's directory
 map('n', '<leader>cd', '<cmd>cd %:p:h<cr><cmd>pwd<cr>', { desc = '[C]hange [D]ir to file' })
 
