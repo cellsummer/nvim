@@ -1,12 +1,18 @@
--- lua/custom/plugins/dap.lua
+-- lua/plugins/dap.lua
+--
 -- Python debugging via nvim-dap + debugpy (installed by mason).
--- All keymaps live under <Leader>d — see the '+Debug' clue in init.lua.
+-- Every keymap is under <leader>d; see the '+[D]ebug' group in
+-- config/settings.lua.
+
+local s = require 'config.settings'
+
+-- Path to a venv's interpreter, for either platform.
+local function venv_python(root) return root .. (s.os.win and '/Scripts/python.exe' or '/bin/python') end
 
 -- debugpy is installed by mason into its own venv; point dap-python at that
 -- interpreter so it never depends on whatever venv the project has active.
 local function debugpy_python()
-  local root = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv'
-  local exe = vim.fn.has 'win32' == 1 and root .. '/Scripts/python.exe' or root .. '/bin/python'
+  local exe = venv_python(vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv')
   if vim.fn.executable(exe) == 1 then return exe end
   return vim.fn.exepath 'python' ~= '' and 'python' or 'python3'
 end
@@ -125,7 +131,7 @@ return {
     -- leaves the adapter with no console. debugpy then launches the debuggee, and
     -- Windows allocates a brand new console window for it (titled with python.exe).
     -- Running attached lets the adapter inherit Neovim's console, so no window pops up.
-    if vim.fn.has 'win32' == 1 then
+    if s.os.win then
       local base = dap.adapters.python
       dap.adapters.python = function(cb, config, parent)
         base(function(adapter)
@@ -149,7 +155,7 @@ return {
       cwd = '${workspaceFolder}',
       python = function()
         local venv = os.getenv 'VIRTUAL_ENV' or os.getenv 'CONDA_PREFIX'
-        if venv then return venv .. (vim.fn.has 'win32' == 1 and '/Scripts/python.exe' or '/bin/python') end
+        if venv then return venv_python(venv) end
         return vim.fn.exepath 'python'
       end,
     })

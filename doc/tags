@@ -1,0 +1,8 @@
+nvim-config	nvim-config.txt	/*nvim-config*
+nvim-config-add-keymap	nvim-config.txt	/*nvim-config-add-keymap*
+nvim-config-add-plugin	nvim-config.txt	/*nvim-config-add-plugin*
+nvim-config-discover	nvim-config.txt	/*nvim-config-discover*
+nvim-config-gotchas	nvim-config.txt	/*nvim-config-gotchas*
+nvim-config-layout	nvim-config.txt	/*nvim-config-layout*
+nvim-config-where	nvim-config.txt	/*nvim-config-where*
+nvim-config.txt	nvim-config.txt	/*nvim-config.txt*

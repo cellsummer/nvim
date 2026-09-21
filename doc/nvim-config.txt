@@ -1,0 +1,139 @@
+*nvim-config.txt*        Layout and conventions for this Neovim configuration
+
+==============================================================================
+CONTENTS                                                    *nvim-config*
+
+    1. Where to change things ............ |nvim-config-where|
+    2. Layout ............................ |nvim-config-layout|
+    3. Adding a plugin ................... |nvim-config-add-plugin|
+    4. Adding a keymap ................... |nvim-config-add-keymap|
+    5. Gotchas ........................... |nvim-config-gotchas|
+    6. Discovering what is bound ......... |nvim-config-discover|
+
+This config is a trimmed descendant of kickstart.nvim, with coc.nvim in place
+of the native LSP stack and snacks.nvim in place of telescope.
+
+Run `:checkhealth config` to see what is currently live.
+
+==============================================================================
+1. WHERE TO CHANGE THINGS                             *nvim-config-where*
+
+Most edits land in one file. `:Config` opens it.
+
+    I want to change...              Edit ~
+    the colorscheme                  lua/config/settings.lua
+    indent width, scrolloff, wrap    lua/config/settings.lua
+    the shell used by terminals      lua/config/settings.lua
+    the Notes / Scripts / temp dirs  lua/config/settings.lua
+    which treesitter parsers install lua/config/settings.lua
+    a <leader> group heading         lua/config/settings.lua
+    any other vim option             lua/config/options.lua
+    an editor keymap                 lua/config/keymaps.lua
+    an autocommand                   lua/config/autocmds.lua
+    a language server or formatter   coc-settings.json  (`:CocConfig`)
+    a plugin, or its keymaps         lua/plugins/<area>.lua
+
+`lua/config/settings.lua` is the hub: it holds every value the rest of the
+config reads, each with a comment explaining what it affects. Nothing else
+hardcodes a path, a shell or a theme name.
+
+==============================================================================
+2. LAYOUT                                            *nvim-config-layout*
+
+    init.lua                  bootstrap only: leader, lazy, module loads
+    coc-settings.json         coc servers, formatters, linters
+    _vimrc                    the pre-Neovim config, kept for reference
+    lua/config/
+      settings.lua            every knob
+      options.lua             vim options, applied from settings
+      keymaps.lua             editor keymaps with no plugin owner
+      autocmds.lua            autocommands with no plugin owner
+      health.lua              `:checkhealth config`
+    lua/plugins/
+      coc.lua                 completion, diagnostics, goto, formatting
+      colorscheme.lua         themes + colorizer
+      dap.lua                 python debugging
+      editor.lua              flash, surround, align, maximizer, autopairs
+      git.lua                 gitsigns, fugitive, fubitive
+      markdown.lua            img-clip, preview
+      picker.lua              snacks: pickers and file explorer
+      terminal.lua            floaterm
+      treesitter.lua          parsers, highlighting, indentation
+      ui.lua                  statusline, key hints, todo-comments
+
+Each file under lua/plugins/ opens with a header naming what it provides and
+the keymaps it owns.
+
+==============================================================================
+3. ADDING A PLUGIN                               *nvim-config-add-plugin*
+
+Add the spec to whichever file in lua/plugins/ matches its area, or create a
+new file there — every file in that directory is imported automatically.
+
+Keep the plugin's keymaps in the same file, in the spec's `keys` table. That
+is the whole point of the split: one place to look when a binding surprises
+you, and lazy-loading for free.
+
+If the plugin needs a value you will want to change later (a path, a size, a
+host name), put the value in lua/config/settings.lua and read it here.
+
+==============================================================================
+4. ADDING A KEYMAP                               *nvim-config-add-keymap*
+
+Plugin keymap -> the spec's `keys` table in its lua/plugins/ file.
+Editor keymap -> lua/config/keymaps.lua.
+
+Always pass a `desc`. It is what |nvim-config-discover| shows you months from
+now, and it costs one string.
+
+Starting a new `<leader>X` family means adding a line to `leader_groups` in
+lua/config/settings.lua so the hint popup gets a heading.
+
+==============================================================================
+5. GOTCHAS                                          *nvim-config-gotchas*
+
+Group prefixes must stay leaves ~
+
+mini.clue ignores 'timeoutlen'. If both `<leader>a` and `<leader>ac` exist,
+pressing `<leader>ac` does nothing until you add a `<CR>`. So a key that has
+anything under it must not be a mapping itself. `<leader>aa` instead of
+`<leader>a`.
+
+Load order ~
+
+lazy.setup runs plugin `config` functions, then init.lua loads
+config.keymaps. A keymap set in config/keymaps.lua therefore overrides a
+plugin's silently. Leave plugin-owned keys alone: `s` `S` `r` `R` belong to
+flash.nvim, and mapping `s` to <Nop> here once disabled it for months.
+
+Terminal <C-k> ~
+
+Window focus wins over readline's delete-to-line-end. Use <C-e> then <C-u>.
+
+'magic' is off ~
+
+Inherited from _vimrc: `.` `*` `[` are literal in search patterns. Some
+plugins assume otherwise. Flip `magic_search` in settings.lua if something
+that emits :s commands behaves oddly.
+
+coc.nvim owns completion ~
+
+Do not enable nvim-lspconfig, blink.cmp, conform or mason-lspconfig. They
+fight coc over the same buffers. Server config belongs in coc-settings.json.
+
+==============================================================================
+6. DISCOVERING WHAT IS BOUND                       *nvim-config-discover*
+
+    <leader>            hint popup, grouped, as you type
+    <leader>sk          fuzzy search every keymap with its description
+    <leader>sc          search commands
+    <leader>sh          search help
+    <leader>fn          jump to any file in this config
+    :Config             open lua/config/settings.lua
+    :checkhealth config what this config is doing right now
+    :Lazy               plugin status, load times, profiling
+
+The keymap list is generated from the live mappings, so it never goes stale.
+That is why descriptions matter more than a table in this file.
+
+ vim:tw=78:ts=8:noet:ft=help:norl:
