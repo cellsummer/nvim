@@ -23,10 +23,10 @@
 
 local s = require 'config.settings'
 
--- A tab holding nothing but a shell is this config's equivalent of a
--- multiplexer window. :only is safe here because the tab is one command old
--- and holds only the empty buffer :tabnew just made.
-local SHELL_TAB = '<cmd>tabnew<cr><cmd>FloatermNew --wintype=split --height=1.0<cr><cmd>only<cr>'
+-- A tab given over to a shell is this config's equivalent of a multiplexer
+-- window. It keeps the no-width second window that settings.terminal_ui
+-- explains, so `floaterm <file>` and `git commit` have somewhere to open.
+local SHELL_TAB = ('<cmd>tabnew<cr><cmd>%s<cr>'):format(s.terminal_ui.full_shell)
 
 -- <M-q> reads as "close what I am looking at": the shell under the cursor, or
 -- else the tab. FloatermKill takes the window with it, so a tab holding one

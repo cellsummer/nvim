@@ -59,6 +59,12 @@ shell without starting a second Neovim inside the first, and they work the same
 on macOS and Windows with nothing added to `~/.zshrc` or the PowerShell
 profile.
 
+A shell fills its tab, beside a second window squeezed to no width. That window
+has to exist: floaterm opens a file by closing the shell's window to make room,
+and Neovim refuses that for the last window in a tab. It is where `git commit`
+and `floaterm <file>` land, and it costs one column. `<C-/>` then swaps
+full-screen between the shell and whatever is open, both keeping their size.
+
 ### Keybinds added
 
 | | |
@@ -70,6 +76,8 @@ profile.
 | `<M-q>` | close the shell under the cursor, or the tab |
 | `<leader>un` / `<leader>up` | next / previous terminal in the ring |
 | `<C-=>` `<C-->` `<C-0>` | zoom in, out, reset — now answer from the shell too |
+
+`<C-/>` and `<C-q>` keep toggling and killing the terminal as before.
 
 `<Esc><Esc>` and `<C-;>` already left terminal mode; they now also turn the
 line numbers back on, so scrollback reads like a file. Entering the shell again

@@ -86,6 +86,13 @@ M.floaterm = {
 M.terminal_ui = {
   enabled = true,
 
+  -- How a shell that owns its whole tab is opened. floaterm's file opener
+  -- closes the shell's window to make room for the file, and Neovim refuses
+  -- that for the last window in a tab (E444). So the tab always keeps a second
+  -- window for files to land in, squeezed to no width until it is needed --
+  -- which is also why options.lua sets 'winminwidth' to 0.
+  full_shell = 'FloatermNew --wintype=vsplit --width=1.0',
+
   -- Forward <M-b> and friends to the shell as raw escape sequences. Neovide
   -- has to claim Option as Meta for the chords above to arrive at all, which
   -- takes those keys away from the shell's line editor unless we hand them

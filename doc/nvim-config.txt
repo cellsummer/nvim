@@ -147,6 +147,12 @@ command and a $GIT_EDITOR on the shell's PATH which open files in the running
 Neovim, so `git commit` does not nest a second one. That holds on macOS and
 Windows without a shell profile.
 
+A shell fills its tab beside a second window squeezed to no width, which is
+where those files open. That window cannot be dispensed with: floaterm makes
+room for a file by closing the shell's window, and Neovim refuses to close the
+last window in a tab (E444). 'winminwidth' is 0 so the cost is one column.
+<C-/> then swaps full-screen between the shell and the file.
+
 <Esc><Esc> and <C-;> leave terminal mode and turn line numbers on, so
 scrollback reads like a file. TermEnter hides them again.
 

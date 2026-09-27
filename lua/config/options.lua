@@ -115,6 +115,10 @@ end
 -- maximum 'scrollback' accepts.
 o.scrollback = 100000
 
+-- Lets the window a shell tab holds for opening files shrink to nothing. See
+-- settings.terminal_ui.full_shell for why that window has to exist at all.
+o.winminwidth = 0
+
 -- ============================================================
 -- Diagnostics
 -- ============================================================

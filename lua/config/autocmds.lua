@@ -106,8 +106,7 @@ if vim.g.neovide and s.terminal_ui.enabled then
     nested = true,
     callback = function()
       if vim.fn.argc() > 0 then return end
-      vim.cmd 'FloatermNew --wintype=split --height=1.0'
-      vim.cmd.only()
+      vim.cmd(s.terminal_ui.full_shell)
     end,
   })
 end
