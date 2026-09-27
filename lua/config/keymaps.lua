@@ -78,6 +78,13 @@ map('n', '<C-Right>', '<cmd>vertical resize +5<CR>', { desc = 'Grow window width
 
 -- :Bclose from _vimrc — drop the current buffer without closing its window.
 local function buf_close()
+  -- Terminals are the main event now that Neovide stands in for a terminal
+  -- emulator, and `x` is one finger slip away from killing a running shell.
+  if vim.bo.buftype == 'terminal' then
+    vim.notify('Close a terminal with <M-q>', vim.log.levels.WARN)
+    return
+  end
+
   local cur = vim.fn.bufnr '%'
   local alt = vim.fn.bufnr '#'
   if vim.fn.buflisted(alt) == 1 then
@@ -168,6 +175,9 @@ map('c', '<C-N>', '<Down>', { desc = 'Next command' })
 map('n', '<leader>bb', ('<cmd>sp term://%s<cr>'):format(s.shell), { desc = '[B]uffer: term [B]elow' })
 map('n', '<leader>br', ('<cmd>vs term://%s<cr>'):format(s.shell), { desc = '[B]uffer: term [R]ight' })
 
+-- Leaving terminal mode brings the line numbers back, so scrollback reads like
+-- a file. That belongs to TermLeave in config/autocmds.lua rather than to these
+-- keys, so typing <C-\><C-n> by hand gets the same result.
 map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 map('t', '<C-;>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 map('t', '<C-h>', '<C-\\><C-n><C-w>h', { silent = true, desc = 'Terminal: focus left' })
@@ -191,3 +201,17 @@ map('t', '<C-e>', term_send '\x05', { desc = 'Terminal: end of line' })
 
 -- Readline's <C-k> (delete to line end) is deliberately absent: the window
 -- focus binding above claims it. Use <C-e> then <C-u> if you need it.
+
+-- Neovide has to claim Option as Meta before any <M-...> chord arrives, which
+-- takes these away from the shell's own line editor. Hand them back the same
+-- way. The arrows stay on word motion so muscle memory survives, leaving
+-- <M-h> and <M-l> free for the tab chords in plugins/terminal.lua.
+if s.terminal_ui.readline_keys then
+  map('t', '<M-b>', term_send '\x1bb', { desc = 'Terminal: back one word' })
+  map('t', '<M-Left>', term_send '\x1bb', { desc = 'Terminal: back one word' })
+  map('t', '<M-f>', term_send '\x1bf', { desc = 'Terminal: forward one word' })
+  map('t', '<M-Right>', term_send '\x1bf', { desc = 'Terminal: forward one word' })
+  map('t', '<M-d>', term_send '\x1bd', { desc = 'Terminal: delete word forward' })
+  map('t', '<M-BS>', term_send '\x1b\x7f', { desc = 'Terminal: delete word back' })
+  map('t', '<M-.>', term_send '\x1b.', { desc = 'Terminal: insert last argument' })
+end

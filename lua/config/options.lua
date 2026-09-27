@@ -108,6 +108,14 @@ else
 end
 
 -- ============================================================
+-- Terminal
+-- ============================================================
+
+-- The 10000-line default is thin for a shell you use all day. This is the
+-- maximum 'scrollback' accepts.
+o.scrollback = 100000
+
+-- ============================================================
 -- Diagnostics
 -- ============================================================
 
@@ -135,18 +143,30 @@ vim.g.markdown_fenced_languages = { 'html', 'python', 'sh', 'sql', 'powershell=s
 -- Neovide
 -- ============================================================
 
--- The font lives in Neovide's own config.toml
--- (~/AppData/Roaming/neovide/config.toml on Windows), not here.
+-- The font lives in Neovide's own config.toml, not here:
+-- ~/.config/neovide/config.toml on macOS,
+-- ~/AppData/Roaming/neovide/config.toml on Windows.
 if vim.g.neovide then
   vim.g.neovide_hide_mouse_when_typing = true
   vim.g.neovide_remember_window_size = true
   vim.g.neovide_cursor_animation_length = 0
   vim.g.neovide_cursor_trail_size = 0
 
+  -- With a shell in the window, closing it kills a running job. Ask first.
+  vim.g.neovide_confirm_quit = true
+
+  -- macOS treats Option as a dead key for accented characters, so no <M-...>
+  -- chord reaches Neovim until Neovide claims it. Take the left key only and
+  -- leave the right one able to type é.
+  if s.os.mac then vim.g.neovide_input_macos_option_key_is_meta = 'only_left' end
+
   local function scale(by)
     return function() vim.g.neovide_scale_factor = by and vim.g.neovide_scale_factor + by or 1 end
   end
-  vim.keymap.set('n', '<C-=>', scale(0.1), { silent = true, desc = 'Neovide: zoom in' })
-  vim.keymap.set('n', '<C-->', scale(-0.1), { silent = true, desc = 'Neovide: zoom out' })
-  vim.keymap.set('n', '<C-0>', scale(nil), { silent = true, desc = 'Neovide: reset zoom' })
+
+  -- Zoom has to answer from a shell too, not only from a file buffer.
+  local zoom_modes = { 'n', 'i', 't' }
+  vim.keymap.set(zoom_modes, '<C-=>', scale(0.1), { silent = true, desc = 'Neovide: zoom in' })
+  vim.keymap.set(zoom_modes, '<C-->', scale(-0.1), { silent = true, desc = 'Neovide: zoom out' })
+  vim.keymap.set(zoom_modes, '<C-0>', scale(nil), { silent = true, desc = 'Neovide: reset zoom' })
 end

@@ -72,6 +72,29 @@ local function check_settings()
   end
 end
 
+-- The multiplexer chords are worth nothing if Option never reaches Neovim, and
+-- that failure is silent: the keys simply do nothing.
+local function check_terminal_ui()
+  if not s.terminal_ui.enabled then
+    vim.health.info 'terminal_ui is off — the <M-...> multiplexer chords are not mapped'
+    return
+  end
+
+  if not vim.g.neovide then
+    vim.health.info 'terminal_ui is on but this is not Neovide — the startup shell is skipped'
+  else
+    vim.health.ok 'terminal_ui: Neovide opens on a shell when started with no file'
+  end
+
+  if s.os.mac and vim.g.neovide and vim.g.neovide_input_macos_option_key_is_meta == nil then
+    vim.health.error('macOS is not sending Option as Meta, so no <M-...> chord arrives', {
+      'Expected lua/config/options.lua to set neovide_input_macos_option_key_is_meta.',
+    })
+  end
+
+  vim.health.info(('readline keys forwarded to the shell: %s'):format(s.terminal_ui.readline_keys and 'yes' or 'no, cmd.exe has no line editor'))
+end
+
 local function check_coc()
   if vim.fn.exists '*CocAction' == 0 then
     vim.health.warn 'coc.nvim is not loaded yet; open a file and re-run this check'
@@ -105,6 +128,9 @@ function H.check()
   check_settings()
   check_colorscheme()
   check_dirs()
+
+  vim.health.start 'config: terminal'
+  check_terminal_ui()
 
   vim.health.start 'config: coc.nvim'
   check_coc()

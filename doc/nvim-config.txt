@@ -8,7 +8,8 @@ CONTENTS                                                    *nvim-config*
     3. Adding a plugin ................... |nvim-config-add-plugin|
     4. Adding a keymap ................... |nvim-config-add-keymap|
     5. Gotchas ........................... |nvim-config-gotchas|
-    6. Discovering what is bound ......... |nvim-config-discover|
+    6. Neovide as a terminal ............. |nvim-config-terminal|
+    7. Discovering what is bound ......... |nvim-config-discover|
 
 This config is a trimmed descendant of kickstart.nvim, with coc.nvim in place
 of the native LSP stack and snacks.nvim in place of telescope.
@@ -110,6 +111,13 @@ Terminal <C-k> ~
 
 Window focus wins over readline's delete-to-line-end. Use <C-e> then <C-u>.
 
+macOS eats Option ~
+
+macOS treats Option as a dead key for accented characters, so no <M-...> chord
+reaches Neovim until Neovide claims it. config/options.lua sets
+`neovide_input_macos_option_key_is_meta` to 'only_left' for that reason. Drop
+it and the multiplexer chords fail silently. See |nvim-config-terminal|.
+
 'magic' is off ~
 
 Inherited from _vimrc: `.` `*` `[` are literal in search patterns. Some
@@ -122,7 +130,36 @@ Do not enable nvim-lspconfig, blink.cmp, conform or mason-lspconfig. They
 fight coc over the same buffers. Server config belongs in coc-settings.json.
 
 ==============================================================================
-6. DISCOVERING WHAT IS BOUND                       *nvim-config-discover*
+6. NEOVIDE AS A TERMINAL                          *nvim-config-terminal*
+
+Started with no file argument, Neovide opens on a full-window shell instead of
+an empty buffer. Tabs stand in for a multiplexer's windows and splits for its
+panes. Turn the whole thing off with `terminal_ui.enabled` in settings.lua.
+
+    <M-CR>              new shell in its own tab
+    <M-Space>           shell pane below
+    <M-Bslash>          shell pane right
+    <M-h> <M-l>         previous / next tab
+    <M-q>               close the shell under the cursor, or the tab
+
+Terminals are floaterms, not plain :term buffers. floaterm puts a `floaterm`
+command and a $GIT_EDITOR on the shell's PATH which open files in the running
+Neovim, so `git commit` does not nest a second one. That holds on macOS and
+Windows without a shell profile.
+
+<Esc><Esc> and <C-;> leave terminal mode and turn line numbers on, so
+scrollback reads like a file. TermEnter hides them again.
+
+<M-b> <M-f> <M-d> <M-BS> <M-.> and the Meta arrows are forwarded to the shell
+as raw escape sequences, because claiming Option took them away from its line
+editor. Skipped when `shell` is 'cmd', which has no line editor.
+
+The font and frame live in Neovide's own config.toml, not here:
+~/.config/neovide/config.toml on macOS, ~/AppData/Roaming/neovide/config.toml
+on Windows.
+
+==============================================================================
+7. DISCOVERING WHAT IS BOUND                       *nvim-config-discover*
 
     <leader>            hint popup, grouped, as you type
     <leader>sk          fuzzy search every keymap with its description

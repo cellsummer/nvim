@@ -46,6 +46,75 @@ _vimrc                the pre-Neovim config, kept for reference
 The keymap list is generated from live mappings, so it cannot go stale. Give
 every new binding a `desc`.
 
+## Neovide as a terminal
+
+Neovide can replace a terminal emulator: open it with no file and it starts on
+a shell, tabs act as a multiplexer's windows, and splits act as its panes.
+Turn it off with `terminal_ui.enabled` in `lua/config/settings.lua`.
+
+Terminals come from floaterm rather than plain `:term`, because floaterm puts a
+`floaterm` command and a `$GIT_EDITOR` on the shell's `PATH` that open files in
+the running Neovim. So `git commit` and `floaterm notes.md` work from the
+shell without starting a second Neovim inside the first, and they work the same
+on macOS and Windows with nothing added to `~/.zshrc` or the PowerShell
+profile.
+
+### Keybinds added
+
+| | |
+| --- | --- |
+| `<M-CR>` | new shell in its own tab |
+| `<M-Space>` | shell pane below |
+| `<M-\>` | shell pane right |
+| `<M-h>` / `<M-l>` | previous / next tab |
+| `<M-q>` | close the shell under the cursor, or the tab |
+| `<leader>un` / `<leader>up` | next / previous terminal in the ring |
+| `<C-=>` `<C-->` `<C-0>` | zoom in, out, reset — now answer from the shell too |
+
+`<Esc><Esc>` and `<C-;>` already left terminal mode; they now also turn the
+line numbers back on, so scrollback reads like a file. Entering the shell again
+hides them.
+
+These Meta chords are forwarded to the shell's line editor as raw escape
+sequences, because Neovide has to claim Option before any `<M-...>` key
+arrives at all. They are skipped when the shell is `cmd`:
+
+| | |
+| --- | --- |
+| `<M-b>` / `<M-Left>` | back one word |
+| `<M-f>` / `<M-Right>` | forward one word |
+| `<M-d>` | delete word forward |
+| `<M-BS>` | delete word back |
+| `<M-.>` | insert last argument |
+
+`<M-h>` and `<M-l>` are the exception: they drive tabs, so the shell loses them.
+`<M-j>` and `<M-k>` still move lines.
+
+### Setting it up
+
+The font and window frame live in Neovide's own `config.toml`, not in this
+repo — `~/.config/neovide/config.toml` on macOS,
+`~/AppData/Roaming/neovide/config.toml` on Windows:
+
+```toml
+[font]
+normal = ["YourNerdFont"]
+size = 14.0
+```
+
+On macOS, `neovide_input_macos_option_key_is_meta` is set to `only_left`, so
+the right Option key still types accented characters. Without it no `<M-...>`
+chord reaches Neovim, and the multiplexer keys fail silently.
+`:checkhealth config` reports this.
+
+On Windows the shell defaults to `cmd`. Change `shell` in
+`lua/config/settings.lua` to `pwsh` for a line editor that understands the
+Meta chords above.
+
+Launched from Spotlight or the Start menu, Neovide does not inherit a login
+shell, so check `:echo $PATH` matches your shell's before blaming anything
+else.
+
 ## Requirements
 
 `git`, `ripgrep`, `node` (coc will not start without it), `unzip`, a C

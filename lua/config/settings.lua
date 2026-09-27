@@ -73,6 +73,26 @@ M.floaterm = {
   float_width = 0.8, -- <leader>uf
 }
 
+-- Neovide standing in for a terminal emulator. A Neovide window started with
+-- no file argument opens on a full-window shell, and the <M-...> chords drive
+-- terminals the way a multiplexer drives its windows and panes.
+--
+-- Terminals come from floaterm rather than plain :term because floaterm hands
+-- the shell a $GIT_EDITOR and a `floaterm` command that open files in this
+-- Neovim instead of nesting a second one inside it. That works the same on
+-- macOS and Windows, with nothing added to ~/.zshrc or the PowerShell profile.
+--
+-- Has no effect outside Neovide: a real terminal emulator does not need this.
+M.terminal_ui = {
+  enabled = true,
+
+  -- Forward <M-b> and friends to the shell as raw escape sequences. Neovide
+  -- has to claim Option as Meta for the chords above to arrive at all, which
+  -- takes those keys away from the shell's line editor unless we hand them
+  -- back. cmd.exe has no line editor to hand them to.
+  readline_keys = M.shell ~= 'cmd',
+}
+
 -- ============================================================
 -- Work-specific
 -- ============================================================
