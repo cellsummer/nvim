@@ -8,6 +8,9 @@ local s = require 'config.settings'
 local o = vim.o
 local opt = vim.opt
 
+-- allow nvimrc file in project folder (.nvimrc)
+vim.o.exrc = true
+
 -- No Python plugins are used, so silence the python3 provider health warning
 -- without installing pynvim.
 vim.g.loaded_python3_provider = 0
@@ -49,7 +52,7 @@ o.history = 5000
 o.autoread = true
 o.backspace = 'eol,start,indent'
 opt.whichwrap:append '<,>,h,l' -- let h/l wrap across lines
-opt.iskeyword:remove '-' -- treat foo-bar as two words
+opt.iskeyword:remove '-'       -- treat foo-bar as two words
 
 o.expandtab = s.indent.expandtab
 o.tabstop = s.indent.width
@@ -65,6 +68,8 @@ o.linebreak = true
 o.textwidth = s.textwidth
 
 o.foldcolumn = '0'
+-- Fallback for filetypes without a treesitter parser. Parsed filetypes switch
+-- to tree-based folds in plugins/treesitter.lua.
 o.foldmethod = 'indent'
 o.foldlevel = 99
 
@@ -84,7 +89,7 @@ o.ignorecase = true
 o.smartcase = true
 o.inccommand = 'split' -- live preview of :s
 o.magic = s.magic_search
-o.regexpengine = 0 -- auto-select NFA or backtracking
+o.regexpengine = 0     -- auto-select NFA or backtracking
 
 if vim.fn.executable 'rg' == 1 then o.grepprg = 'rg --vimgrep --no-heading --smart-case' end
 

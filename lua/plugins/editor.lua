@@ -9,6 +9,9 @@
 --   cs ds ys       vim-surround
 --   <C-w>m         maximize the current window
 --   <C-a> <C-e>    readline motions in insert and command mode (vim-rsi)
+--
+-- Buffers are tab-local here (scope.nvim), so :bnext and the buffer pickers
+-- stay inside the current tab.
 
 ---@module 'lazy'
 ---@type LazySpec
@@ -72,6 +75,13 @@ return {
   -- Match the file's existing indentation instead of forcing the settings.lua
   -- default onto someone else's code.
   { 'NMAC427/guess-indent.nvim', opts = {} },
+
+  -- Tab-local buffers. Neovim's buffer list is global, so scope.nvim unlists
+  -- the buffers that belong to other tabs: a new tab starts empty, and :bnext,
+  -- <leader>fb and :ls only see the current tab's buffers. `:ScopeMoveBuf {nr}`
+  -- hands a buffer to another tab. Not lazy — it has to see every tab and
+  -- buffer from startup to keep its bookkeeping straight.
+  { 'tiagovla/scope.nvim', lazy = false, opts = {} },
 
   -- Chdir to the project root, so pickers and :grep stay scoped
   'airblade/vim-rooter',
