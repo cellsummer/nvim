@@ -71,6 +71,14 @@ M.shell = is_win and 'cmd' or (vim.env.SHELL or 'bash')
 M.floaterm = {
   width = 0.33, -- vsplit width, used by <C-/>
   float_width = 0.8, -- <leader>uf
+
+  -- How <leader>la writes the selected code's location into the terminal,
+  -- for a coding agent running there to read. The path comes first, relative
+  -- to the cwd, then the line numbers.
+  code_ref = {
+    line = '@%s#L%d',
+    range = '@%s#L%d-L%d',
+  },
 }
 
 -- ============================================================
