@@ -7,6 +7,7 @@
 --   <C-/>       toggle the floaterm      <C-q>  kill it
 --   <leader>uf  new floating terminal    <leader>ub / <leader>ur  split below / right
 --   <leader>ul  last terminal            <leader>ui  first terminal
+--   <leader>un  next terminal            <leader>up  previous terminal
 --   <C-R>       (visual) send selection to the terminal
 --   <leader>la  (visual) send the selection's file:lines to the terminal
 --   <leader>le  (python) run the current file with `uv run --env-file .env`
@@ -72,6 +73,8 @@ return {
       { '<leader>ur', '<cmd>FloatermNew --wintype=vsplit<cr>', desc = '[U]I: new term right' },
       { '<leader>ul', '<cmd>FloatermLast<cr>', desc = '[U]I: [L]ast term' },
       { '<leader>ui', '<cmd>FloatermFirst<cr>', desc = '[U]I: F[i]rst term' },
+      { '<leader>un', '<cmd>FloatermNext<cr>', desc = '[U]I: [N]ext term' },
+      { '<leader>up', '<cmd>FloatermPrev<cr>', desc = '[U]I: [P]revious term' },
       { '<C-R>', ':FloatermSend<cr>', mode = 'v', silent = true, desc = 'Send selection to terminal' },
       { '<leader>la', send_code_ref, mode = 'x', desc = 'Send selection to [A]gent' },
     },
