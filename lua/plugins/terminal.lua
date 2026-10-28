@@ -66,17 +66,17 @@ return {
     'voldikss/vim-floaterm',
     lazy = false,
     keys = {
-      { '<C-/>', desc = 'Toggle floaterm' },
-      { '<C-q>', desc = 'Kill floaterm' },
+      { '<C-/>',      desc = 'Toggle floaterm' },
+      { '<C-q>',      desc = 'Kill floaterm' },
       { '<leader>uf', ('<cmd>FloatermNew --wintype=float --width=%s<cr>'):format(s.floaterm.float_width), desc = '[U]I: new floating term' },
-      { '<leader>ub', '<cmd>FloatermNew --wintype=split<cr>', desc = '[U]I: new term below' },
-      { '<leader>ur', '<cmd>FloatermNew --wintype=vsplit<cr>', desc = '[U]I: new term right' },
-      { '<leader>ul', '<cmd>FloatermLast<cr>', desc = '[U]I: [L]ast term' },
-      { '<leader>ui', '<cmd>FloatermFirst<cr>', desc = '[U]I: F[i]rst term' },
-      { '<leader>un', '<cmd>FloatermNext<cr>', desc = '[U]I: [N]ext term' },
-      { '<leader>up', '<cmd>FloatermPrev<cr>', desc = '[U]I: [P]revious term' },
-      { '<C-R>', ':FloatermSend<cr>', mode = 'v', silent = true, desc = 'Send selection to terminal' },
-      { '<leader>la', send_code_ref, mode = 'x', desc = 'Send selection to [A]gent' },
+      { '<leader>ub', '<cmd>FloatermNew --wintype=split<cr>',                                             desc = '[U]I: new term below' },
+      { '<leader>ur', '<cmd>FloatermNew --wintype=vsplit<cr>',                                            desc = '[U]I: new term right' },
+      { '<leader>ul', '<cmd>FloatermLast<cr>',                                                            desc = '[U]I: [L]ast term' },
+      { '<leader>ui', '<cmd>FloatermFirst<cr>',                                                           desc = '[U]I: F[i]rst term' },
+      { '<leader>un', '<cmd>FloatermNext<cr>',                                                            desc = '[U]I: [N]ext term' },
+      { '<leader>up', '<cmd>FloatermPrev<cr>',                                                            desc = '[U]I: [P]revious term' },
+      { '<C-R>',      ':FloatermSend<cr>',                                                                mode = 'v',                      silent = true,                     desc = 'Send selection to terminal' },
+      { '<leader>la', send_code_ref,                                                                      mode = 'x',                      desc = 'Send selection to [A]gent' },
     },
     init = function()
       -- Toggle and kill are set as g: variables rather than keys above
@@ -109,7 +109,7 @@ return {
               vim.cmd 'FloatermNew'
             end
 
-            vim.cmd(('FloatermSend uv run --env-file .env "%s"'):format(file))
+            vim.cmd(('FloatermSend uv run --frozen --env-file .env %s'):format(file))
           end, { buffer = args.buf, desc = 'Run with Env' })
         end,
       })

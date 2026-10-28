@@ -145,5 +145,18 @@ return {
       group = vim.api.nvim_create_augroup('config-coc-highlight', { clear = true }),
       callback = function() vim.fn.CocActionAsync 'highlight' end,
     })
+
+    -- Coc declares `CocItalic` itself, so the colorscheme's global italic gate
+    -- cannot reach it and hover docs stay italic. Scheduled because coc
+    -- re-asserts its own `hi default` groups on every ColorScheme event, and
+    -- this has to land after that.
+    local function drop_coc_italic() vim.schedule(function() vim.api.nvim_set_hl(0, 'CocItalic', {}) end) end
+
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      desc = 'Coc: keep CocItalic non-italic',
+      group = vim.api.nvim_create_augroup('config-coc-italic', { clear = true }),
+      callback = drop_coc_italic,
+    })
+    drop_coc_italic()
   end,
 }

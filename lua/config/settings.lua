@@ -21,9 +21,11 @@ M.os = {
 -- Appearance
 -- ============================================================
 
--- Installed themes: predawn, nordic, ember, ember-soft, ember-light, codedark.
+-- Installed themes: token, token-flint, token-ultra, token-meridian,
+-- token-temper, predawn, nordic, ember, ember-soft, ember-light, codedark.
+-- The token family picks dark or light from 'background'.
 -- Preview them live with <leader>ft before committing to one here.
-M.colorscheme = 'predawn'
+M.colorscheme = 'token-flint'
 
 -- Nerd Font installed and selected in the terminal / Neovide.
 M.nerd_font = true

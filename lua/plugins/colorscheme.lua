@@ -4,7 +4,8 @@
 -- single edit in config/settings.lua (`M.colorscheme`) and a restart.
 -- Preview them live first with <leader>ft.
 --
--- Available: predawn, nordic, ember, ember-soft, ember-light, codedark
+-- Available: token, token-flint, token-ultra, token-meridian, token-temper,
+--            predawn, nordic, ember, ember-soft, ember-light, codedark
 
 local s = require 'config.settings'
 
@@ -40,6 +41,13 @@ return {
   },
 
   {
+    "wtfox/luna.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+
+  {
     'AlexvZyl/nordic.nvim',
     lazy = active ~= 'nordic',
     priority = 1000,
@@ -61,6 +69,36 @@ return {
       local variant = vim.startswith(active, 'ember') and active or 'ember'
       require('ember').setup { variant = variant }
       if vim.startswith(active, 'ember') then vim.cmd.colorscheme 'ember' end
+    end,
+  },
+
+  {
+    'ThorstenRhau/token',
+    version = '*', -- tagged releases, not untagged commits on main
+    lazy = not vim.startswith(active, 'token'),
+    priority = 1000,
+    config = function()
+      -- Integrations are opt-in since v2; these are the supported plugins
+      -- this config actually loads. Dark or light comes from 'background'.
+      require('token').setup {
+        -- A global gate: applied last, so it also covers plugin groups and
+        -- any override, not just the stock italic comments and quotes.
+        attributes = { italic = false },
+        plugins = {
+          dap_ui = true,
+          flash = true,
+          fugitive = true,
+          gitsigns = true,
+          lazy = true,
+          mason = true,
+          mini = true,
+          snacks = true,
+          todo_comments = true,
+        },
+      }
+      -- 'token', 'token-flint', 'token-ultra', ... are all valid names, so
+      -- the setting doubles as the appearance.
+      if vim.startswith(active, 'token') then vim.cmd.colorscheme(active) end
     end,
   },
 

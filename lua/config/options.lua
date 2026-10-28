@@ -24,6 +24,7 @@ vim.g.have_nerd_font = s.nerd_font
 o.number = true
 o.relativenumber = true
 o.cursorline = true
+o.termguicolors = true -- 24-bit colour; every theme here assumes it
 o.showmode = false -- mini.statusline already shows it
 o.signcolumn = 'yes'
 o.scrolloff = s.scrolloff
